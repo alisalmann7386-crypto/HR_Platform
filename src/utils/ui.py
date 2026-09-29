@@ -4,8 +4,9 @@ from src.utils.config import MODELS,DATA,REPORTS
 from src.utils.helpers import read_json
 
 def title(name,description):
+    st.markdown('<span class="wf-badge">WORKFORCEAI · HUMAN-IN-THE-LOOP</span>',unsafe_allow_html=True)
     st.title(name);st.caption(description)
-    st.caption('Academic demo • Synthetic HR data • Evidence for human review')
+    st.caption('Synthetic demo data · inspect evidence before taking any HR action')
 def guard(function):
     try:function()
     except Exception as exc:st.error(f'{type(exc).__name__}: {exc}');st.info('This module could not complete. Correct the input or run the setup command shown above; other pages remain available.')
