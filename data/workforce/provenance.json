@@ -1,0 +1,6 @@
+{
+  "random_state": 42,
+  "synthetic": true,
+  "source_id": "IBM EmployeeNumber mapped to EMP-<number>",
+  "note": "All auxiliary skill, project, performance, attendance, training and future-capacity values are invented demonstration data; they are not model training features."
+}

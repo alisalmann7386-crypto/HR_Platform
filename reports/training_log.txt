@@ -1,0 +1,19 @@
+EDA saved: /workspace/scratch/ecff155eae90/workforce-ai/reports/eda
+Dataset loaded: 1470 rows. Target: Attrition. Distribution: {'No': 1233, 'Yes': 237}
+Train: 1029 Validation: 220 Test: 221
+Training Logistic Regression
+Completed.
+Training LightGBM
+Completed.
+Training Weighted LightGBM
+Completed.
+Training SMOTE + LightGBM
+Completed.
+              model      split  threshold  accuracy  precision   recall       f1  roc_auc   pr_auc  brier_score
+Logistic Regression validation        0.5  0.877273   0.785714 0.314286 0.448980 0.788108 0.609865     0.097127
+           LightGBM validation        0.5  0.845455   0.555556 0.142857 0.227273 0.738378 0.374874     0.122370
+  Weighted LightGBM validation        0.5  0.818182   0.432432 0.457143 0.444444 0.739151 0.342566     0.141442
+   SMOTE + LightGBM validation        0.5  0.850000   0.562500 0.257143 0.352941 0.740849 0.423250     0.117042
+Selected: Logistic Regression Threshold: 0.3500000000000001
+FINAL TEST RESULTS {'accuracy': 0.8552036199095022, 'precision': 0.5526315789473685, 'recall': 0.5833333333333334, 'f1': 0.5675675675675675, 'roc_auc': 0.8288288288288289, 'pr_auc': 0.6412742780261608, 'brier_score': 0.09389775593806546, 'confusion_matrix': [[168, 17], [15, 21]]}
+Saved model: /workspace/scratch/ecff155eae90/workforce-ai/models/attrition_model.joblib

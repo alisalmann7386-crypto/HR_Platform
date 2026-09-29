@@ -1,0 +1,174 @@
+[
+  {
+    "question": "Can an employee take medical leave followed by temporary work from home?",
+    "evidence": [
+      {
+        "document_name": "Work_From_Home_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "5a133c0736c3c8f4b5465eb0cfb943ddf663a6ad87d5c74a4d54884b81ec8c32",
+        "section": "3.2 Extension or other temporary needs",
+        "chunk_id": "271d786c8ec142f2",
+        "text": "More than 5 consecutive working days, or temporary remote work for another reason, requires a fresh case-by-case manager and HR decision. This policy creates no automatic extension. If the employee is unable to work, use the Leave Policy process instead. Employees must not be expected to work during approved medical leave.",
+        "similarity": 0.6324235200881958
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "5.1 Leave followed by remote work",
+        "chunk_id": "517bd2dcd75398ab",
+        "text": "Approved sick leave may be followed by a separately approved temporary remote-work arrangement. Leave approval does not approve remote work. Refer to Work From Home Policy, Section 3.1. Remote work is appropriate only when the employee can perform agreed duties; if still unwell, request further leave instead. HR should not require work during approved leave.",
+        "similarity": 0.6214514970779419
+      },
+      {
+        "document_name": "Work_From_Home_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "5a133c0736c3c8f4b5465eb0cfb943ddf663a6ad87d5c74a4d54884b81ec8c32",
+        "section": "3.1 Temporary remote work after illness",
+        "chunk_id": "f61515295a5ae912",
+        "text": "An employee returning from sick leave may request up to 5 consecutive working days of temporary remote work. The request needs manager and HR approval, feasible duties and a written start and end date. Submit it before the arrangement begins where possible. It is distinct from sick leave, uses no leave balance, and can exceed the routine 2-day weekly limit when specifically approved. HR may request a minimal fitness statement where duties require it, without unnecessary diagnosis details.",
+        "similarity": 0.6151434779167175
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "4.2 Medical evidence",
+        "chunk_id": "a0f252c3cdb695a4",
+        "text": "A sick-leave absence lasting more than 3 consecutive working days requires a medical certificate confirming the absence period. Submit it confidentially to HR within 5 working days after returning, or agree an extension with HR. A certificate should not include unnecessary diagnosis details. For 3 or fewer consecutive working days, self-declaration is sufficient unless HR documents a specific reason for further evidence.",
+        "similarity": 0.5354888439178467
+      },
+      {
+        "document_name": "Work_From_Home_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "5a133c0736c3c8f4b5465eb0cfb943ddf663a6ad87d5c74a4d54884b81ec8c32",
+        "section": "8. Worked examples",
+        "chunk_id": "9192b7d043c2ee8f",
+        "text": "Example A: a one-week remote arrangement after illness can cover 5 working days under Section 3.1 with both approvals, even though routine hybrid work is limited to 2 days weekly. Example B: approving sick leave alone does not authorize those remote days. Example C: a request to work abroad cannot be answered as approved by this document because Section 6 routes it to HR review.",
+        "similarity": 0.474631667137146
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "8. Examples and policy boundaries",
+        "chunk_id": "f4282f20253d5661",
+        "text": "Example A: five consecutive working days of medical leave require a certificate under Section 4.2. A following week at home needs separate approval under WFH Section 3.1. Example B: Friday and Monday illness consume two working days if the weekend is a rest period; the request contains two consecutive scheduled working days. A question about maternity leave must be referred to HR because this pack contains no such entitlement.",
+        "similarity": 0.473111629486084
+      }
+    ]
+  },
+  {
+    "question": "What is the nightly hotel reimbursement ceiling in Delhi?",
+    "evidence": [
+      {
+        "document_name": "Travel_Reimbursement_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "a06b6ca1d05a7d1667b76203e57efa928db6fd537bcf3ee9fa8fa909250cde3e",
+        "section": "3.2 Accommodation",
+        "chunk_id": "1611285118261d91",
+        "text": "The nightly hotel ceiling is INR 4,000 for Bengaluru, Chennai, Delhi NCR, Hyderabad, Kolkata, Mumbai and Pune; it is INR 3,000 for other domestic locations. Ceilings include taxes and apply to the actual reimbursable room cost. Obtain manager and Finance approval for a higher rate before booking. Without an approved exception, reimbursement is capped at the relevant ceiling.",
+        "similarity": 0.7815815806388855
+      },
+      {
+        "document_name": "Travel_Reimbursement_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "a06b6ca1d05a7d1667b76203e57efa928db6fd537bcf3ee9fa8fa909250cde3e",
+        "section": "8. Worked examples",
+        "chunk_id": "e138c20f0e482dd3",
+        "text": "Example A: a Delhi hotel at INR 4,500 including taxes is reimbursable up to INR 4,000 unless the extra INR 500 was covered by a recorded exception. Example B: INR 650 of receipted meals in a day is reimbursed at INR 650, not INR 800. Example C: a 100 km approved personal-car business journey is INR 800; claiming fuel for that journey as well is disallowed. International travel rates are absent from this pack.",
+        "similarity": 0.4864026606082916
+      },
+      {
+        "document_name": "Travel_Reimbursement_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "a06b6ca1d05a7d1667b76203e57efa928db6fd537bcf3ee9fa8fa909250cde3e",
+        "section": "3.3 Meals and local costs",
+        "chunk_id": "ae5773a9a140b837",
+        "text": "Reimburse actual business-travel meal costs up to INR 800 per calendar travel day, supported by receipts. Meals included in a hotel or event booking cannot be claimed again. This is not an automatic daily allowance. Necessary tolls and parking may be claimed with evidence. Alcohol, leisure activities, personal shopping and companion expenses are not reimbursable.",
+        "similarity": 0.4247369170188904
+      },
+      {
+        "document_name": "Travel_Reimbursement_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "a06b6ca1d05a7d1667b76203e57efa928db6fd537bcf3ee9fa8fa909250cde3e",
+        "section": "Document introduction",
+        "chunk_id": "7901162f7d01c08f",
+        "text": "WorkforceAI Technologies Pvt. Ltd. | Travel Reimbursement Policy Procedures, safeguards and examples",
+        "similarity": 0.34625858068466187
+      },
+      {
+        "document_name": "Travel_Reimbursement_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "a06b6ca1d05a7d1667b76203e57efa928db6fd537bcf3ee9fa8fa909250cde3e",
+        "section": "7. Exceptions and records",
+        "chunk_id": "4dffe958aebe939d",
+        "text": "Any exception to class of travel or monetary ceiling requires written manager and Finance approval before purchase where practical, with an explicit permitted amount. Store invoices and approvals in the expense system with restricted access. AI may identify missing evidence or possible duplicates for human review; it cannot accuse fraud, approve payment or change payroll.",
+        "similarity": 0.32281383872032166
+      }
+    ]
+  },
+  {
+    "question": "How many annual leave days are provided?",
+    "evidence": [
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "2. Leave balances",
+        "chunk_id": "93e2792b3e7115b5",
+        "text": "For a full calendar year, annual leave is 12 working days, casual leave is 6 working days, and sick leave is 10 working days. Annual leave accrues at 1 day per completed month; casual and sick balances are prorated by remaining complete months at joining. Only scheduled working days consume a balance. Company holidays and weekly rest days do not. HR maintains the authoritative balance; a chatbot cannot grant leave.",
+        "similarity": 0.7276173233985901
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "1. Purpose and scope",
+        "chunk_id": "093c418122f127b2",
+        "text": "This policy defines fictional leave arrangements for full-time demo employees. The leave year is 1 January to 31 December. Probationary employees may use accrued balances under the same request process. Contractors and interns need a separate written arrangement; this document does not define their entitlement.",
+        "similarity": 0.5797294974327087
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "8. Examples and policy boundaries",
+        "chunk_id": "f4282f20253d5661",
+        "text": "Example A: five consecutive working days of medical leave require a certificate under Section 4.2. A following week at home needs separate approval under WFH Section 3.1. Example B: Friday and Monday illness consume two working days if the weekend is a rest period; the request contains two consecutive scheduled working days. A question about maternity leave must be referred to HR because this pack contains no such entitlement.",
+        "similarity": 0.537825345993042
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "3. Planned requests and approval",
+        "chunk_id": "1ad66593dc379dea",
+        "text": "Request annual leave at least 7 calendar days before it starts and casual leave at least 2 working days before it starts. Record dates, leave type, handover and contact for urgent work in the HR portal. The manager reviews coverage within 2 working days; HR confirms the balance. Approval must be recorded before planned leave begins. If approval is pending, contact HR rather than assuming consent.",
+        "similarity": 0.5116560459136963
+      },
+      {
+        "document_name": "Leave_Policy.pdf",
+        "page_number": 2,
+        "document_sha256": "0bb9bc67fbcd9863ad3be16ea1e41f785542940b261c783d1813f79c43ff6542",
+        "section": "6. Carry-forward and changes",
+        "chunk_id": "5925e10b64234a83",
+        "text": "Up to 5 unused annual-leave days may carry into the next year and must be used by 31 March; remaining carried days expire then. Casual and sick balances do not carry forward. This pack does not define cash encashment. To extend or cancel approved leave, submit changed dates and obtain a revised recorded approval. For an emergency extension, notify the manager and HR promptly.",
+        "similarity": 0.4919324219226837
+      },
+      {
+        "document_name": "Work_From_Home_Policy.pdf",
+        "page_number": 1,
+        "document_sha256": "5a133c0736c3c8f4b5465eb0cfb943ddf663a6ad87d5c74a4d54884b81ec8c32",
+        "section": "2.1 Routine hybrid work",
+        "chunk_id": "f50cd6702f1e722a",
+        "text": "Eligible employees may request up to 2 remote working days per week. Submit the planned days at least 2 working days in advance. Manager approval is required and must be recorded in the HR portal. Days do not accumulate or carry forward. Approval for one week does not create an automatic entitlement for future weeks.",
+        "similarity": 0.47400200366973877
+      }
+    ]
+  },
+  {
+    "question": "quasar gravitational lensing xyzzy",
+    "evidence": []
+  }
+]

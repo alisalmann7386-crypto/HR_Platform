@@ -1,0 +1,14 @@
+FICTIONAL DEMO CANDIDATE 01
+Skills
+Python, PyTorch, SQL, NLP, LangChain, ChromaDB, RAG, Git, Docker
+Experience
+1 year of experience developing machine learning prototypes.
+Projects
+Built a RAG assistant using LangChain and ChromaDB with citation checks and retrieval evaluation.
+Trained a PyTorch computer vision classifier with a held-out test split.
+Education
+Bachelor degree in Computer Science
+Certifications
+Python programming course
+Domains
+Applied machine learning

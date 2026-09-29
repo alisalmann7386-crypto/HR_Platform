@@ -1,0 +1,14 @@
+FICTIONAL DEMO CANDIDATE 02
+Skills
+Python, SQL, PostgreSQL, Machine Learning, Pandas, Scikit-learn, Excel
+Experience
+2 years of experience in data analysis and statistical modeling.
+Projects
+Built a sales forecasting pipeline and evaluated temporal holdout errors.
+Designed SQL dashboards for operational reporting.
+Education
+Bachelor degree in Data Science
+Certifications
+Data analysis certificate
+Domains
+Business analytics

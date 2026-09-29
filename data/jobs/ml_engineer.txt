@@ -1,0 +1,14 @@
+Role: Machine Learning Engineer
+Mandatory Skills:
+Python, Machine Learning, PyTorch, SQL
+Preferred Skills:
+Docker, MLOps, AWS, LLMs, RAG
+Minimum Experience: 1 year
+Responsibilities:
+Build and evaluate machine learning models for text and tabular data.
+Deploy reproducible ML services and retrieval augmented generation applications.
+Domain Requirements:
+Applied machine learning
+Education Requirements:
+Bachelor degree in Computer Science or related field
+Certification Requirements:
