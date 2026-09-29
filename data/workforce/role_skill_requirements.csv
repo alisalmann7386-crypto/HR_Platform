@@ -1,0 +1,46 @@
+Role,Skill,Required_Level,Required_Employees,Priority,Synthetic
+Healthcare Representative,Python,Intermediate,58,High,True
+Healthcare Representative,SQL,Intermediate,58,High,True
+Healthcare Representative,Machine Learning,Intermediate,58,High,True
+Healthcare Representative,Laboratory Methods,Intermediate,58,High,True
+Healthcare Representative,Research,Intermediate,58,High,True
+Human Resources,Excel,Intermediate,23,High,True
+Human Resources,Communication,Intermediate,23,High,True
+Human Resources,Project Management,Intermediate,23,High,True
+Human Resources,Data Analysis,Intermediate,23,High,True
+Human Resources,SQL,Intermediate,23,High,True
+Laboratory Technician,Python,Intermediate,116,High,True
+Laboratory Technician,SQL,Intermediate,116,High,True
+Laboratory Technician,Machine Learning,Intermediate,116,High,True
+Laboratory Technician,Laboratory Methods,Intermediate,116,High,True
+Laboratory Technician,Research,Intermediate,116,High,True
+Manager,Python,Intermediate,45,High,True
+Manager,SQL,Intermediate,45,High,True
+Manager,Machine Learning,Intermediate,45,High,True
+Manager,Laboratory Methods,Intermediate,45,High,True
+Manager,Research,Intermediate,45,High,True
+Manufacturing Director,Python,Intermediate,65,High,True
+Manufacturing Director,SQL,Intermediate,65,High,True
+Manufacturing Director,Machine Learning,Intermediate,65,High,True
+Manufacturing Director,Laboratory Methods,Intermediate,65,High,True
+Manufacturing Director,Research,Intermediate,65,High,True
+Research Director,Python,Intermediate,36,High,True
+Research Director,SQL,Intermediate,36,High,True
+Research Director,Machine Learning,Intermediate,36,High,True
+Research Director,Laboratory Methods,Intermediate,36,High,True
+Research Director,Research,Intermediate,36,High,True
+Research Scientist,Python,Intermediate,131,High,True
+Research Scientist,SQL,Intermediate,131,High,True
+Research Scientist,Machine Learning,Intermediate,131,High,True
+Research Scientist,Laboratory Methods,Intermediate,131,High,True
+Research Scientist,Research,Intermediate,131,High,True
+Sales Executive,Sales,Intermediate,146,High,True
+Sales Executive,CRM,Intermediate,146,High,True
+Sales Executive,Excel,Intermediate,146,High,True
+Sales Executive,Data Analysis,Intermediate,146,High,True
+Sales Executive,Communication,Intermediate,146,High,True
+Sales Representative,Sales,Intermediate,37,High,True
+Sales Representative,CRM,Intermediate,37,High,True
+Sales Representative,Excel,Intermediate,37,High,True
+Sales Representative,Data Analysis,Intermediate,37,High,True
+Sales Representative,Communication,Intermediate,37,High,True

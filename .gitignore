@@ -1,0 +1,10 @@
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+*.pyc
+.streamlit/secrets.toml
+data/resumes/uploads/
+reports/interviews/
+venv/
+vector_store/

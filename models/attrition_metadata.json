@@ -1,0 +1,284 @@
+{
+  "model_name": "Logistic Regression",
+  "model_version": "1.0.0",
+  "dataset": "WA_Fn-UseC_-HR-Employee-Attrition.csv",
+  "dataset_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
+  "dataset_rows": 1470,
+  "training_date": "2026-09-29T19:39:57.123275+00:00",
+  "features": [
+    "BusinessTravel",
+    "DailyRate",
+    "Department",
+    "DistanceFromHome",
+    "Education",
+    "EducationField",
+    "EnvironmentSatisfaction",
+    "HourlyRate",
+    "JobInvolvement",
+    "JobLevel",
+    "JobRole",
+    "JobSatisfaction",
+    "MonthlyIncome",
+    "MonthlyRate",
+    "NumCompaniesWorked",
+    "OverTime",
+    "PercentSalaryHike",
+    "PerformanceRating",
+    "RelationshipSatisfaction",
+    "StockOptionLevel",
+    "TotalWorkingYears",
+    "TrainingTimesLastYear",
+    "WorkLifeBalance",
+    "YearsAtCompany",
+    "YearsInCurrentRole",
+    "YearsSinceLastPromotion",
+    "YearsWithCurrManager"
+  ],
+  "excluded_features": [
+    "Attrition",
+    "EmployeeNumber",
+    "Employee_ID",
+    "EmployeeCount",
+    "Over18",
+    "StandardHours",
+    "Gender",
+    "Age",
+    "MaritalStatus"
+  ],
+  "schema": {
+    "BusinessTravel": {
+      "type": "categorical",
+      "categories": [
+        "Non-Travel",
+        "Travel_Frequently",
+        "Travel_Rarely"
+      ],
+      "default": "Travel_Rarely"
+    },
+    "DailyRate": {
+      "type": "numeric",
+      "min": 103.0,
+      "max": 1499.0,
+      "default": 805.0
+    },
+    "Department": {
+      "type": "categorical",
+      "categories": [
+        "Human Resources",
+        "Research & Development",
+        "Sales"
+      ],
+      "default": "Research & Development"
+    },
+    "DistanceFromHome": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 29.0,
+      "default": 7.0
+    },
+    "Education": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 5.0,
+      "default": 3.0
+    },
+    "EducationField": {
+      "type": "categorical",
+      "categories": [
+        "Human Resources",
+        "Life Sciences",
+        "Marketing",
+        "Medical",
+        "Other",
+        "Technical Degree"
+      ],
+      "default": "Life Sciences"
+    },
+    "EnvironmentSatisfaction": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "HourlyRate": {
+      "type": "numeric",
+      "min": 30.0,
+      "max": 100.0,
+      "default": 65.0
+    },
+    "JobInvolvement": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "JobLevel": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 5.0,
+      "default": 2.0
+    },
+    "JobRole": {
+      "type": "categorical",
+      "categories": [
+        "Healthcare Representative",
+        "Human Resources",
+        "Laboratory Technician",
+        "Manager",
+        "Manufacturing Director",
+        "Research Director",
+        "Research Scientist",
+        "Sales Executive",
+        "Sales Representative"
+      ],
+      "default": "Sales Executive"
+    },
+    "JobSatisfaction": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "MonthlyIncome": {
+      "type": "numeric",
+      "min": 1009.0,
+      "max": 19973.0,
+      "default": 5063.0
+    },
+    "MonthlyRate": {
+      "type": "numeric",
+      "min": 2094.0,
+      "max": 26999.0,
+      "default": 14506.0
+    },
+    "NumCompaniesWorked": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 9.0,
+      "default": 2.0
+    },
+    "OverTime": {
+      "type": "categorical",
+      "categories": [
+        "No",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "PercentSalaryHike": {
+      "type": "numeric",
+      "min": 11.0,
+      "max": 25.0,
+      "default": 14.0
+    },
+    "PerformanceRating": {
+      "type": "numeric",
+      "min": 3.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "RelationshipSatisfaction": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "StockOptionLevel": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 3.0,
+      "default": 1.0
+    },
+    "TotalWorkingYears": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 40.0,
+      "default": 10.0
+    },
+    "TrainingTimesLastYear": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 6.0,
+      "default": 3.0
+    },
+    "WorkLifeBalance": {
+      "type": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "default": 3.0
+    },
+    "YearsAtCompany": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 37.0,
+      "default": 5.0
+    },
+    "YearsInCurrentRole": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 17.0,
+      "default": 3.0
+    },
+    "YearsSinceLastPromotion": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 15.0,
+      "default": 1.0
+    },
+    "YearsWithCurrManager": {
+      "type": "numeric",
+      "min": 0.0,
+      "max": 17.0,
+      "default": 3.0
+    }
+  },
+  "threshold": 0.3500000000000001,
+  "selection_criterion": "Highest validation average precision, then ROC-AUC",
+  "threshold_criterion": "Maximum validation F1, then precision, then higher threshold",
+  "random_state": 42,
+  "split_sizes": {
+    "train": 1029,
+    "validation": 220,
+    "test": 221
+  },
+  "probability_note": "Uncalibrated model estimates, not real-world departure likelihoods; no prediction horizon is provided by this dataset.",
+  "pr_auc_definition": "Average precision (step-wise PR integral)",
+  "band_edges": [
+    0.17500000000000004,
+    0.3500000000000001
+  ],
+  "test_metrics": {
+    "accuracy": 0.8552036199095022,
+    "precision": 0.5526315789473685,
+    "recall": 0.5833333333333334,
+    "f1": 0.5675675675675675,
+    "roc_auc": 0.8288288288288289,
+    "pr_auc": 0.6412742780261608,
+    "brier_score": 0.09389775593806546,
+    "confusion_matrix": [
+      [
+        168,
+        17
+      ],
+      [
+        15,
+        21
+      ]
+    ]
+  },
+  "accuracy": 0.8552036199095022,
+  "precision": 0.5526315789473685,
+  "recall": 0.5833333333333334,
+  "f1": 0.5675675675675675,
+  "roc_auc": 0.8288288288288289,
+  "pr_auc": 0.6412742780261608,
+  "brier_score": 0.09389775593806546,
+  "versions": {
+    "scikit-learn": "1.7.2",
+    "lightgbm": "4.7.0",
+    "imbalanced-learn": "0.14.2",
+    "shap": "0.50.0",
+    "pandas": "2.3.3",
+    "numpy": "2.5.3"
+  }
+}
