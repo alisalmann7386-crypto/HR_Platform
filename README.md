@@ -205,7 +205,7 @@ See `reports/DEMO_GUIDE.md` for a 7–10 minute walkthrough. Browser screenshots
 
 ## Verification
 
-Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. Exact build outcomes and remaining unverified items are in `reports/VERIFICATION.md`. Do not claim LLM quality from retrieval tests or a mocked response.
+Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. The 30 September repository review passed **57 tests**, including 17 added regression cases for document uploads, session isolation, malformed policy responses and workforce identity validation. Exact build outcomes and remaining unverified items are in `reports/VERIFICATION.md`. Do not claim LLM quality from retrieval tests or a mocked response.
 
 ## Deployment
 

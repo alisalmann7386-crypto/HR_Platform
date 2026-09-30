@@ -1,6 +1,24 @@
 # Verification record
 
-## Executed successfully
+## Repository review — 30 September 2026
+
+Reviewed GitHub main at `22253c59bded77dd524f6be763feb3ff5a3d27fc` in a fresh Python 3.12 environment.
+
+Fixed repeat reads of uploaded documents; stale interview analysis, answers and notes after candidate replacement; stale answer display after policy-index replacement; malformed LLM JSON handling; missing/blank workforce identity validation; and the skill graph's forced white background. Interview analysis is now displayed only beside its matching question. Attrition IDs are trimmed before duplicate validation.
+
+Validation: **57 tests passed**, including semantic matching/retrieval, all Streamlit page checks, saved model predictions, SHAP, and 17 added regression cases. `pip check`, Python compilation, `git diff --check`, and a changed-file credential-pattern scan passed. Three third-party SHAP/Matplotlib deprecation warnings remain.
+
+No model retraining was needed for these input/session fixes; saved test predictions still match the loaded model. Live external LLM calls and browser visual inspection were not verified in this review. LLM malformed-response behavior was tested using mocked outputs.
+
+Reproduce from the repository root after installing requirements and building the policy index:
+
+```bash
+python -m pytest -q
+```
+
+The following section records the original build, including its original 40-test count.
+
+## Original build: executed successfully
 
 - Created a clean Python 3.12 virtual environment and installed the application requirements. `pip check`: no broken requirements.
 - Inspected the uploaded IBM CSV: 1,470 rows and 35 original columns. Read all six supplied two-page policy PDFs; no policy contents were replaced.

@@ -22,7 +22,7 @@ def main():
             report={'candidate_id':cid,'job_role':record['job']['job_title'],'question':q,'answer':response,'analysis':analysis,'interviewer_notes':notes,'timestamp':timestamp()}
             st.session_state.setdefault('interview_reports',[]).append(report);st.session_state['latest_interview_analysis']=report
         report=st.session_state.get('latest_interview_analysis')
-        if report and report['candidate_id']==cid:st.json(report['analysis'])
+        if report and report['candidate_id']==cid and report['question']==q:st.json(report['analysis'])
     reports=[r for r in st.session_state.get('interview_reports',[]) if r['candidate_id']==cid]
     if reports:
         st.download_button('Export structured interview report',json.dumps(reports,indent=2),'interview_report.json','application/json')

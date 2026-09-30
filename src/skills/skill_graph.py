@@ -26,5 +26,5 @@ def plot_graph(G):
     for kind,color in palette.items():
         nodes=[n for n,v in G.nodes(data=True) if v['kind']==kind]
         if nodes:fig.add_trace(go.Scatter(x=[pos[n][0] for n in nodes],y=[pos[n][1] for n in nodes],text=[G.nodes[n]['label'] for n in nodes],mode='markers',marker=dict(color=color,size=10 if kind=='Employee' else 15),name=kind,hovertemplate='%{text}<extra>'+kind+'</extra>'))
-    fig.update_layout(height=620,margin=dict(l=0,r=0,t=10,b=0),xaxis=dict(visible=False),yaxis=dict(visible=False),plot_bgcolor='white')
+    fig.update_layout(height=620,margin=dict(l=0,r=0,t=10,b=0),xaxis=dict(visible=False),yaxis=dict(visible=False))
     return fig

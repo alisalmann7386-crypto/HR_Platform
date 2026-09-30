@@ -33,6 +33,10 @@ def main():
                 records.append({'candidate':candidate,'job':jd,'analysis':result})
         st.session_state['recruitment_records']=records
         st.session_state.pop('interview_questions',None)
+        st.session_state.pop('latest_interview_analysis',None)
+        for key in list(st.session_state):
+            if key.startswith(('answer_Candidate ', 'notes_Candidate ')):
+                del st.session_state[key]
         st.session_state['interview_reports']=[]
     records=st.session_state.get('recruitment_records',[])
     if records:

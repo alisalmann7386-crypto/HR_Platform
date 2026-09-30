@@ -6,7 +6,18 @@ from docx import Document
 def extract_text(source, name=None):
     name = name or getattr(source, 'name', str(source))
     suffix = Path(name).suffix.lower()
-    data = Path(source).read_bytes() if isinstance(source, (str, Path)) else source.read()
+    if isinstance(source, (str, Path)):
+        data = Path(source).read_bytes()
+    elif hasattr(source, 'getvalue'):
+        data = source.getvalue()
+    else:
+        # Streamlit reruns must not consume an uploaded document permanently.
+        position = source.tell()
+        try:
+            source.seek(0)
+            data = source.read()
+        finally:
+            source.seek(position)
     if len(data) > 20 * 1024 * 1024: raise ValueError('File exceeds 20 MB limit.')
     if suffix == '.pdf':
         reader = PdfReader(BytesIO(data))
