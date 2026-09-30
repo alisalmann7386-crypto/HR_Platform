@@ -119,3 +119,30 @@ def test_real_semantic_matching(candidate,jd):
 def test_semantic_policy_retrieval():
     hits,meta=search('Can an employee take medical leave followed by temporary work from home?',6,INDEX,.30)
     assert meta['backend']=='semantic';assert {'Leave_Policy.pdf','Work_From_Home_Policy.pdf'}<=set(x['document_name'] for x in hits)
+
+@pytest.mark.parametrize('filename',['candidate_01.pdf','candidate_02.docx'])
+def test_uploaded_resume_can_be_read_repeatedly(filename):
+    from io import BytesIO
+    upload=BytesIO((DATA/'resumes'/filename).read_bytes())
+    upload.seek(7)
+    first=extract_text(upload,name=filename)
+    assert extract_text(upload,name=filename)==first
+    assert upload.tell()==7
+
+@pytest.mark.parametrize('payload',[[],None,'invalid',{'supported':True,'claims':[None]}, {'supported':True,'claims':'bad'}, {'supported':'false','claims':[{'text':'Approved','source_id':1,'quote':'Medical leave'}]}, {'supported':True,'claims':[{'text':None,'source_id':1,'quote':'Medical leave'}]}])
+def test_malformed_policy_llm_abstains(monkeypatch,payload):
+    evidence=[{'text':'Medical leave requires approval.','document_name':'policy.pdf','page_number':1,'section':'Leave'}]
+    monkeypatch.setattr('src.rag.policy_agent.retrieve',lambda *args:(evidence,{'backend':'lexical'}))
+    monkeypatch.setattr('src.rag.policy_agent.complete',lambda *args:json.dumps(payload))
+    assert answer_question('medical leave',use_llm=True)['mode']=='abstention'
+
+@pytest.mark.parametrize('ids',[['','EMP-2'],['  ','EMP-2'],['EMP-1',' EMP-1 ']])
+def test_blank_or_normalized_duplicate_ids_rejected(df,ids):
+    rows=df.head(2).copy();rows['Employee_ID']=ids
+    with pytest.raises(ValueError,match='Employee_ID'):predict_batch(rows)
+
+@pytest.mark.parametrize('value',[None,'','  '])
+def test_skill_capacity_rejects_missing_identity(value):
+    skills=pd.DataFrame([[value,'D','R','Python','Advanced']],columns=['Employee_ID','Department','Job_Role','Skill','Skill_Level'])
+    req=pd.DataFrame([['R','Python','Intermediate',3,'High']],columns=['Role','Skill','Required_Level','Required_Employees','Priority'])
+    with pytest.raises(ValueError,match='Employee_ID'):skill_gaps(skills,req)

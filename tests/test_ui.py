@@ -39,3 +39,27 @@ def test_policy_retrieval_ui():
     app.button[1].click().run()
     assert not app.exception and not app.error
     assert len(app.session_state['policy_result']['evidence'])>0
+
+
+def test_replacing_candidates_clears_old_interview_state():
+    app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=90).run().switch_page('pages/1_Recruitment_Intelligence.py').run()
+    app.selectbox[0].set_value('lexical').run()
+    app.button[0].click().run()
+    app.session_state['answer_Candidate 01_0']='Old candidate answer'
+    app.session_state['notes_Candidate 01_0']='Old private notes'
+    app.session_state['latest_interview_analysis']={'candidate_id':'Candidate 01','analysis':{'old':True}}
+    app.button[0].click().run()
+    state=app.session_state
+    assert 'answer_Candidate 01_0' not in state
+    assert 'notes_Candidate 01_0' not in state
+    assert 'latest_interview_analysis' not in state
+    assert not app.exception and not app.error
+
+
+def test_rebuilding_policy_index_clears_previous_answer():
+    app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=90).run().switch_page('pages/3_HR_Policy_Assistant.py').run()
+    app.session_state['policy_result']={'mode':'old','backend':'lexical','answer':'Old policy answer','evidence':[]}
+    app.selectbox[0].set_value('lexical').run()
+    app.button[0].click().run()
+    assert 'policy_result' not in app.session_state
+    assert not app.exception and not app.error

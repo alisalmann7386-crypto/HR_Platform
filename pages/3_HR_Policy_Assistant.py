@@ -29,7 +29,7 @@ def main():
                     if len(data)>20*1024*1024:raise ValueError('Policy exceeds 20 MB.')
                     (source/name).write_bytes(data)
             else:source=POLICIES
-            meta=build_index(source,folder/'index',backend,int(size),int(overlap));st.session_state['session_policy_index']=str(folder/'index');active=folder/'index';st.success(f'Indexed {meta["documents"]} documents / {meta["chunks"]} chunks.');st.json(meta)
+            meta=build_index(source,folder/'index',backend,int(size),int(overlap));st.session_state['session_policy_index']=str(folder/'index');active=folder/'index';st.session_state.pop('policy_result',None);st.success(f'Indexed {meta["documents"]} documents / {meta["chunks"]} chunks.');st.json(meta)
     top_k=st.slider('Retrieved chunks',1,12,int(os.getenv('RAG_TOP_K',6)))
     minimum=st.slider('Minimum cosine similarity (heuristic; not confidence)',0.,1.,float(os.getenv('RAG_MIN_SIMILARITY',.30)),.01)
     query=st.text_area('Policy question',value=st.session_state.get('policy_query','Can an employee take medical leave followed by temporary work from home?'))
