@@ -4,7 +4,7 @@
   "dataset": "WA_Fn-UseC_-HR-Employee-Attrition.csv",
   "dataset_sha256": "a5c31e38bd7fafc9bc333884eb181b06b41b8e5e488e8f7ccb27199fb3be7659",
   "dataset_rows": 1470,
-  "training_date": "2026-09-29T19:39:57.123275+00:00",
+  "training_date": "2026-09-30T10:34:53.109259+00:00",
   "features": [
     "BusinessTravel",
     "DailyRate",
@@ -254,7 +254,7 @@
     "f1": 0.5675675675675675,
     "roc_auc": 0.8288288288288289,
     "pr_auc": 0.6412742780261608,
-    "brier_score": 0.09389775593806546,
+    "brier_score": 0.09389775593806553,
     "confusion_matrix": [
       [
         168,
@@ -272,7 +272,7 @@
   "f1": 0.5675675675675675,
   "roc_auc": 0.8288288288288289,
   "pr_auc": 0.6412742780261608,
-  "brier_score": 0.09389775593806546,
+  "brier_score": 0.09389775593806553,
   "versions": {
     "scikit-learn": "1.7.2",
     "lightgbm": "4.7.0",
