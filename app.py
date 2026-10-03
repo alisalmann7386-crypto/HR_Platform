@@ -1,30 +1,30 @@
 import streamlit as st
 import plotly.io as pio
 
-st.set_page_config(page_title="WorkforceAI", page_icon="◈", layout="wide")
-pio.templates.default = "plotly_dark"
+st.set_page_config(page_title="WorkforceAI", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
+pio.templates.default = "plotly_white"
 
 st.markdown("""
 <style>
 :root {
-  color-scheme: dark;
-  --canvas: #0b0f14;
-  --sidebar: #10161e;
-  --surface: #141c25;
-  --surface-raised: #19232e;
-  --line: #293542;
-  --line-strong: #3b4b5c;
-  --accent: #6fc6b3;
-  --accent-hover: #8ad8c7;
-  --text: #e8edf2;
-  --muted: #9ba9b7;
-  --success: #71c6a2;
-  --warning: #e4bd76;
-  --danger: #e58d8d;
+  color-scheme: light;
+  --canvas: #ffffff;
+  --sidebar: #f5f8fc;
+  --surface: #f5f7fa;
+  --surface-raised: #eaf1fb;
+  --line: #dce5f0;
+  --line-strong: #b8cadf;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --text: #152947;
+  --muted: #51647e;
+  --success: #16775b;
+  --warning: #9a650c;
+  --danger: #b42338;
 }
 html, body, [class*="css"] { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .stApp { background: var(--canvas); color: var(--text); }
-[data-testid="stHeader"] { background: rgba(11,15,20,.94); border-bottom: 1px solid rgba(41,53,66,.55); }
+[data-testid="stHeader"] { background: rgba(255,255,255,.96); border-bottom: 1px solid rgba(220,229,240,.8); }
 [data-testid="stToolbar"] { right: 1rem; }
 .block-container { max-width: 1480px; padding: 2.35rem clamp(1.15rem, 3vw, 2.75rem) 3.5rem; }
 h1, h2, h3, h4 { color: var(--text); letter-spacing: -.025em; line-height: 1.2; }
@@ -45,13 +45,13 @@ section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { margin-
 [data-testid="stSidebarNav"] li { border-radius: 8px; margin: 2px 0; }
 [data-testid="stSidebarNav"] a { border-radius: 8px; transition: background-color .15s ease, color .15s ease; }
 [data-testid="stSidebarNav"] a:hover { background: var(--surface-raised); color: var(--text); }
-[data-testid="stSidebarNav"] a[aria-current="page"] { background: #20332f; color: #a0e0d0; }
-.wf-badge { display: inline-flex; align-items: center; gap: .4rem; padding: 5px 10px; border: 1px solid #33534f; border-radius: 999px; color: #a0d9cd; background: #172522; font-size: .74rem; font-weight: 650; letter-spacing: .045em; margin: 2px 5px 9px 0; }
-.wf-card { height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 21px; min-height: 150px; transition: border-color .16s ease, background-color .16s ease, transform .16s ease; }
-.wf-card:hover { background: var(--surface-raised); border-color: #49605f; transform: translateY(-2px); }
+[data-testid="stSidebarNav"] a[aria-current="page"] { background: #e2edfd; color: #1d4ed8; }
+.wf-badge { display: inline-flex; align-items: center; gap: .4rem; padding: 5px 10px; border: 1px solid #cbdcf8; border-radius: 999px; color: #1e4e95; background: #eef5ff; font-size: .74rem; font-weight: 650; letter-spacing: .045em; margin: 2px 5px 9px 0; }
+.wf-card { height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 21px; min-height: 150px; box-shadow: 0 5px 18px rgba(31,58,95,.06); transition: border-color .16s ease, background-color .16s ease, transform .16s ease; }
+.wf-card:hover { background: var(--surface-raised); border-color: #96b7e6; transform: translateY(-2px); }
 .wf-card h3 { margin: 0 0 9px; color: var(--text); }
 .wf-card p { margin: 0; font-size: .93rem; }
-div[data-testid="stMetric"] { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 17px 18px; min-height: 112px; transition: border-color .16s ease, background-color .16s ease; }
+div[data-testid="stMetric"] { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 17px 18px; min-height: 112px; box-shadow: 0 3px 12px rgba(31,58,95,.05); transition: border-color .16s ease, background-color .16s ease; }
 div[data-testid="stMetric"]:hover { border-color: var(--line-strong); background: var(--surface-raised); }
 div[data-testid="stMetricLabel"] { color: var(--muted); font-size: .82rem; }
 div[data-testid="stMetricValue"] { color: var(--text); font-size: clamp(1.4rem, 2.3vw, 1.9rem); font-weight: 670; }
@@ -65,14 +65,14 @@ div[data-testid="stMetricDelta"] { font-size: .8rem; }
 [data-testid="stTabs"] button[role="tab"] { color: var(--muted); border-radius: 8px 8px 0 0; }
 [data-testid="stTabs"] button[role="tab"][aria-selected="true"] { color: var(--accent-hover); border-bottom-color: var(--accent); }
 .stButton > button, .stDownloadButton > button, [data-testid="stPageLink"] a { min-height: 2.55rem; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface-raised); color: var(--text); font-weight: 590; transition: background-color .15s ease, border-color .15s ease, transform .15s ease; }
-.stButton > button:hover, .stDownloadButton > button:hover, [data-testid="stPageLink"] a:hover { border-color: var(--accent); background: #20332f; color: #d8f4ed; transform: translateY(-1px); }
+.stButton > button:hover, .stDownloadButton > button:hover, [data-testid="stPageLink"] a:hover { border-color: var(--accent); background: #e2edfd; color: #1746a2; transform: translateY(-1px); }
 .stButton > button:focus-visible, .stDownloadButton > button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.stButton > button[kind="primary"] { background: #28574d; border-color: #39796b; color: #f1fffb; }
-.stButton > button[kind="primary"]:hover { background: #326a5e; border-color: var(--accent); }
-.stTextInput input, .stTextArea textarea, .stNumberInput input { background: #0e141b; color: var(--text); border: 1px solid var(--line-strong); border-radius: 8px; }
-[data-baseweb="select"] > div, [data-baseweb="input"] > div { background: #0e141b; border-color: var(--line-strong); border-radius: 8px; }
-[data-baseweb="tag"] { background: #24423b; border-color: #39675d; }
-[data-testid="stFileUploader"] section { background: #111a22; border: 1px dashed var(--line-strong); border-radius: 10px; }
+.stButton > button[kind="primary"] { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+.stButton > button[kind="primary"]:hover { background: #1d4ed8; border-color: var(--accent); }
+.stTextInput input, .stTextArea textarea, .stNumberInput input { background: #ffffff; color: var(--text); border: 1px solid var(--line-strong); border-radius: 8px; }
+[data-baseweb="select"] > div, [data-baseweb="input"] > div { background: #ffffff; border-color: var(--line-strong); border-radius: 8px; }
+[data-baseweb="tag"] { background: #dbeafe; border-color: #b6cef6; }
+[data-testid="stFileUploader"] section { background: #f8fbff; border: 1px dashed var(--line-strong); border-radius: 10px; }
 [data-testid="stAlert"] { border-radius: 10px; border-width: 1px; }
 [data-testid="stStatusWidget"] { border-radius: 9px; }
 [data-testid="stSpinner"] { color: var(--accent); }
@@ -97,20 +97,14 @@ div[data-testid="stMetricDelta"] { font-size: .8rem; }
 """, unsafe_allow_html=True)
 
 st.sidebar.title("◈ WorkforceAI")
-st.sidebar.caption("People analytics · decision support")
-st.sidebar.selectbox(
-    "Perspective",
-    ["HR Manager", "Recruiter", "Interviewer", "Workforce Analyst"],
-    key="user_perspective",
-    help="Changes the label shown in the sidebar. All decisions remain with authorized humans.",
-)
+st.sidebar.caption("Intelligent HR Decision Support")
 st.sidebar.markdown(
     '<span class="wf-badge">● Evidence mode</span><span class="wf-badge">● Human review</span>',
     unsafe_allow_html=True,
 )
 
 page = st.navigation([
-    st.Page("pages/0_Home.py", title="WorkforceAI", icon="🏠"),
+    st.Page("pages/0_Home.py", title="Home", icon="🏠"),
     st.Page("pages/5_Workforce_Dashboard.py", title="Dashboard", icon="📊"),
     st.Page("pages/1_Recruitment_Intelligence.py", title="Recruitment Intelligence", icon="📄"),
     st.Page("pages/2_Interview_Agent.py", title="Intelligent Interview Agent", icon="💬"),

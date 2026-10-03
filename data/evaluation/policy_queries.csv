@@ -1,0 +1,27 @@
+case_id,question,expected_sources,answerable,notes
+P01,How many annual leave days are available?,Leave_Policy.pdf|1|2. Leave balances,1,Annual allocation
+P02,How many days ahead should annual leave be requested?,Leave_Policy.pdf|1|3. Planned requests and approval,1,Planned approval
+P03,When does sick leave need a medical certificate?,Leave_Policy.pdf|1|4.2 Medical evidence,1,Three consecutive working days
+P04,Can sick leave be followed by temporary remote work?,Leave_Policy.pdf|2|5.1 Leave followed by remote work;Work_From_Home_Policy.pdf|1|3.1 Temporary remote work after illness,1,Two-source query
+P05,How many unused annual leave days carry forward?,Leave_Policy.pdf|2|6. Carry-forward and changes,1,Carry forward limit
+P06,How soon can HR review a declined leave request?,Leave_Policy.pdf|2|7. Responsibilities and review,1,HR response
+P07,How many routine remote days may I request weekly?,Work_From_Home_Policy.pdf|1|2.1 Routine hybrid work,1,Weekly allowance
+P08,Can a temporary remote arrangement last five days after illness?,Work_From_Home_Policy.pdf|1|3.1 Temporary remote work after illness,1,Separate approval
+P09,What are core collaboration hours when working from home?,Work_From_Home_Policy.pdf|2|4. Availability and work records,1,Availability
+P10,Must I use MFA and a company device at home?,Work_From_Home_Policy.pdf|2|5. Security and equipment,1,Security
+P11,When are annual performance goals set?,Performance_Review_Policy.pdf|1|2. Review calendar,1,Review year
+P12,How many development actions may a review agree?,Performance_Review_Policy.pdf|2|6. Calibration and development,1,Development plan
+P13,Can an employee dispute a performance review?,Performance_Review_Policy.pdf|2|7. Review requests and access,1,Record review
+P14,How long must I be in a role for standard promotion eligibility?,Promotion_Policy.pdf|1|2.1 Standard eligibility,1,Eligibility
+P15,Who gives final written approval for a promotion?,Promotion_Policy.pdf|2|5. Panel and approval,1,Final approval
+P16,When do promotion panels normally convene?,Promotion_Policy.pdf|2|4. Review cycles and nominations,1,Panel timing
+P17,What is the nightly hotel limit in Delhi?,Travel_Reimbursement_Policy.pdf|1|3.2 Accommodation,1,City limit
+P18,What mileage rate applies to an approved personal car trip?,Travel_Reimbursement_Policy.pdf|1|3.1 Transport,1,Mileage
+P19,When should an expense report be submitted?,Travel_Reimbursement_Policy.pdf|2|4. Expense submission,1,Expense deadline
+P20,How do I report a workplace concern?,Employee_Code_of_Conduct.pdf|2|5. Reporting concerns,1,Reporting route
+P21,May I share employee medical records in a public demo?,Employee_Code_of_Conduct.pdf|1|3.1 Confidential records,1,Confidentiality
+P22,How is retaliation after a good-faith report handled?,Employee_Code_of_Conduct.pdf|2|6. Review and non-retaliation,1,Non-retaliation
+P23,What is the company's cryptocurrency reimbursement rate?,,0,Out of scope
+P24,Which office stocks are eligible for options?,,0,Out of scope
+P25,What is the weather in Delhi today?,,0,Not a policy
+P26,What is the visa policy for lunar travel?,,0,Not a policy

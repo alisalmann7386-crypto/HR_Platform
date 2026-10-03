@@ -1,5 +1,16 @@
 # Verification record
 
+## UI and evaluation update — 3 October 2026
+
+- The attached white/navy/blue UI prompt was applied across shared styling and page workflows. Interactive interviewer question edits/removals and visible source context were added.
+- Fresh Python 3.12 virtual environment installed project dependencies. MiniLM downloaded and built the six-document semantic policy index.
+- 39 author-curated recruitment cases: extraction precision 0.986, recall 0.971; alignment precision 0.957, recall 1.000. These are synthetic examples, not independent real HR validation.
+- 26 curated policy queries: Recall@5 1.000 for expected sources and out-of-scope abstention 0.750. A cryptocurrency reimbursement question retrieved related policy excerpts despite having no supported answer.
+- Held-out reliability bins and 1,000 deterministic bootstrap resamples are descriptive; they did not change or calibrate the saved model.
+- CI workflow added for fresh index build, full suite and evaluation commands. Local full suite: **62 passed**. `python scripts/check_deployment.py` loaded the saved Logistic Regression model and retrieved six policy chunks. `pip check`, compilation and `git diff --check` passed. A local Streamlit HTTP health check returned `ok` after a brief startup. CI execution on GitHub remains to be checked after publishing. Live public Streamlit Cloud deployment remains unverified.
+
+
+
 ## Repository review — 30 September 2026
 
 Reviewed GitHub main at `22253c59bded77dd524f6be763feb3ff5a3d27fc` in a fresh Python 3.12 environment.

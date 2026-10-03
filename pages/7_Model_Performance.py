@@ -4,6 +4,7 @@ import plotly.express as px
 from sklearn.metrics import roc_curve,precision_recall_curve
 from src.utils.ui import title,guard,model
 from src.utils.config import REPORTS
+from src.utils.helpers import read_json
 
 def main():
     title('Model Performance','Real saved experiments; model and threshold selection use validation only.')
@@ -27,5 +28,18 @@ def main():
         with st.expander('LightGBM TreeSHAP experiment (training records)'):
             imp=pd.read_csv(REPORTS/'weighted_lightgbm_shap.csv').head(15);st.plotly_chart(px.bar(imp,x='Mean_Absolute_SHAP_LogOdds',y='Feature',orientation='h'),use_container_width=True)
             st.caption('This explains the weighted LightGBM experiment, not the selected inference model.')
+    st.subheader('Reliability and test-set uncertainty')
+    calibration=REPORTS/'calibration_uncertainty.json';bins=REPORTS/'reliability_bins.csv'
+    if calibration.exists() and bins.exists():
+        detail=read_json(calibration);curve=pd.read_csv(bins)
+        fig=px.scatter(curve,x='mean_probability',y='observed_rate',size='count',hover_data=['count'],
+                       labels={'mean_probability':'Mean model estimate','observed_rate':'Observed attrition fraction'},
+                       title='Held-out reliability (five quantile bins)')
+        fig.add_shape(type='line',x0=0,y0=0,x1=1,y1=1,line=dict(color='#64748b',dash='dash'))
+        fig.update_xaxes(range=[0,1]);fig.update_yaxes(range=[0,1]);st.plotly_chart(fig,use_container_width=True)
+        st.dataframe(pd.DataFrame([{'Metric':k,'Lower 95%':v['lower_95'],'Upper 95%':v['upper_95']}
+                                   for k,v in detail['intervals'].items()]),hide_index=True)
+        st.caption(f"Descriptive percentile bootstrap over {detail['rows']} held-out rows ({detail['positive_rows']} positives). These ranges do not correct dataset bias or make predictions calibrated. No model or threshold was selected using test data.")
+    else:st.info('Run python scripts/evaluate_calibration.py to create the descriptive reliability report.')
     with st.expander('Reproducibility metadata'):st.json(meta)
 guard(main)

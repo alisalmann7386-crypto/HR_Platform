@@ -25,7 +25,7 @@ python scripts/build_policy_index.py --input data/policies
 streamlit run app.py
 ```
 
-The ZIP includes an already-built policy index for convenience. Git deliberately ignores `vector_store/`; after cloning a repository, build the index. MiniLM downloads on first use (internet required); it subsequently uses the Hugging Face cache. No GPU or API key is required for training, matching, retrieval or extractive answers. Optional LLM synthesis requires a key.
+Git ignores `vector_store/`. On a fresh deployment, opening the Policy Assistant builds the bundled semantic index automatically and keeps it for subsequent requests. You can also prepare it explicitly with `python scripts/build_policy_index.py --input data/policies`, then run `python scripts/check_deployment.py` to check the saved model and retrieval. MiniLM downloads on first use (internet required) and then uses the Hugging Face cache. No GPU or API key is required for training, matching, retrieval or extractive answers. Optional LLM synthesis requires a key.
 
 On Linux, a CPU-only PyTorch installation can reduce disk use:
 
@@ -144,7 +144,7 @@ Default weights: mandatory skills 40, preferred 15, experience 20, projects 15, 
 
 ## Interview methodology
 
-Local questions use role skills, projects and unmatched requirements. A transparent rubric finds concept words and explicitly leaves technical correctness to the interviewer; it does not pretend that word occurrence proves understanding. Optional LLM mode returns JSON technical analysis with source quotations validated against the answer. Reports contain candidate ID, role, question, answer, observed concepts, missing concepts, follow-up and interviewer notes. No personality, emotion, honesty, intelligence or employability inference is requested.
+Local questions use role skills, projects and unmatched requirements. Each question displays its resume or JD basis, and an interviewer can edit or remove it before asking; the report saves the final question and source context. A transparent rubric finds concept words and explicitly leaves technical correctness to the interviewer; it does not pretend that word occurrence proves understanding. Optional LLM mode returns JSON technical analysis with source quotations validated against the answer. Reports contain candidate ID, role, question, answer, observed concepts, missing concepts, follow-up and interviewer notes. No personality, emotion, honesty, intelligence or employability inference is requested.
 
 ## RAG methodology and configuration
 
@@ -199,17 +199,36 @@ See `reports/DIRECTORY_TREE.txt` for the final file inventory. Main source direc
 - `tests/`: parser, matching, ML isolation, reload, SHAP, retrieval/citation, graph, integration and Streamlit page tests.
 - `requirements-lock.txt`: exact installed build environment (Python 3.12/Linux). `requirements.txt` is the portable bounded dependency list. CPU PyTorch wheels may require the PyTorch index when using the lockfile.
 
+## UI and six improvement checks
+
+The interface uses one shared white/navy/blue design system. The landing page shows the source-to-dashboard workflow. Recruitment has a five-step flow and requirement evidence; interview questions can be edited; policy results show source cards and exact retrieved text; individual and batch attrition views display separate SHAP directions; the skills page offers an employee detail view. The persisted metrics remain sourced from real model outputs.
+
+Evaluation cases in `data/evaluation/` are **author-curated fictional examples**, not independent labels or evidence of real HR effectiveness. Run:
+
+```bash
+python scripts/evaluate_recruitment.py --backend semantic
+python scripts/evaluate_policy.py --top-k 5
+python scripts/evaluate_calibration.py
+python scripts/check_deployment.py
+```
+
+For the 39 curated recruitment cases: skill extraction precision **0.986**, recall **0.971**; semantic requirement alignment precision **0.957**, recall **1.000**. The cases include negation and related-but-distinct tools, yet remain a small synthetic benchmark. Review per-case evidence in `reports/recruitment_cases_semantic.csv` and expand the set with independently reviewed real-world-style resumes before making broader claims.
+
+For 26 fictional policy questions (22 with expected sources and 4 out of scope), source Recall@5 is **1.000**; unsupported-question abstention is **0.750**. The cryptocurrency reimbursement query retrieves related expense text despite lacking an answer. Retrieved evidence is not proof that a query is answered; human checking is required. See `reports/policy_retrieval_cases.csv`.
+
+`reports/reliability_bins.csv` and `reports/calibration_uncertainty.json` describe the held-out synthetic data: five-bin reliability and 1,000 deterministic percentile bootstrap resamples, including F1 interval approximately **0.424–0.689**. This does not calibrate the model or supply an external confidence guarantee. No test labels were used to select a model or threshold. `Model Performance` plots these files. The `Python checks` GitHub Actions workflow installs dependencies, builds the index and runs tests/evaluations for each PR.
+
 ## Screenshots and demonstration
 
 See `reports/DEMO_GUIDE.md` for a 7–10 minute walkthrough. Browser screenshots could not be captured in the build sandbox because Chromium socket creation was blocked. Streamlit AppTest verified all pages and interactions; browser visual review remains unverified. Capture screenshots locally for your final report. No synthetic screenshots are presented as application captures.
 
 ## Verification
 
-Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. The 30 September repository review passed **57 tests**, including 17 added regression cases for document uploads, session isolation, malformed policy responses and workforce identity validation. Exact build outcomes and remaining unverified items are in `reports/VERIFICATION.md`. Do not claim LLM quality from retrieval tests or a mocked response.
+Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. The 30 September repository review passed **57 tests**; the 3 October UI and evaluation update passed **62 tests**, including 17 added regression cases for document uploads, session isolation, malformed policy responses and workforce identity validation. Exact build outcomes and remaining unverified items are in `reports/VERIFICATION.md`. Do not claim LLM quality from retrieval tests or a mocked response.
 
 ## Deployment
 
-For Streamlit Community Cloud or another host, use `app.py` as the entry point and install `requirements.txt`. Train beforehand and include trusted model files, or run the training command during a controlled build. Build the policy index on the server before starting the app, or use the Policy page to build a session index. Add environment variables using the host's secret settings. Do not publish this prototype with real HR data: it lacks authentication, role-based access control, encryption policy, audit trails and multi-tenant storage controls.
+For Streamlit Community Cloud or another host, use `app.py` as the entry point, Python 3.12, and install `requirements.txt`. Trusted model files are committed already; no retraining is required for a normal demo. The first visit to the Policy page builds the bundled index when needed. To check a fresh checkout before deployment, run `python scripts/check_deployment.py`. Add environment variables using the host's secret settings. Do not publish this prototype with real HR data: it lacks authentication, role-based access control, encryption policy, audit trails and multi-tenant storage controls.
 
 ## Ethical considerations and limitations
 

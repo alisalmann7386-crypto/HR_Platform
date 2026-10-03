@@ -1,0 +1,40 @@
+case_id,resume_text,expected_skills,requirement,expected_alignment,reason
+R01,Skills: Python and SQL,Python|SQL,Python,1,Explicit Python
+R02,Skills: Python and SQL,Python|SQL,SQL,1,Explicit SQL
+R03,Skills: Python and SQL,Python|SQL,Docker,0,Docker absent
+R04,Skills: natural language processing and PyTorch,NLP|PyTorch,NLP,1,Full phrase alias
+R05,Skills: PostgreSQL and data analysis,PostgreSQL|Data Analysis,Postgres,1,Postgres alias
+R06,Skills: AWS and Docker,AWS|Docker,Kubernetes,0,Container use does not establish orchestration
+R07,Skills: retrieval augmented generation and ChromaDB,RAG|ChromaDB,RAG,1,RAG alias
+R08,Skills: retrieval augmented generation and ChromaDB,RAG|ChromaDB,FAISS,0,Other vector store not equivalent
+R09,Skills: TensorFlow and computer vision,TensorFlow|Computer Vision,Computer Vision,1,Explicit full phrase
+R10,Skills: TensorFlow and computer vision,TensorFlow|Computer Vision,PyTorch,0,Different framework
+R11,Skills: Amazon Web Services and Spark,AWS|Spark,AWS,1,Cloud alias
+R12,Skills: Git and FastAPI,Git|FastAPI,Streamlit,0,Other framework
+R13,Skills: ML and Pandas,Machine Learning|Pandas,Machine Learning,1,ML alias
+R14,Skills: Statistics and Excel,Statistics|Excel,Statistics,1,Explicit concept
+R15,Skills: Power BI and Tableau,Power BI|Tableau,Power BI,1,Explicit tool
+R16,Skills: Azure and GCP,Azure|GCP,AWS,0,Other cloud vendors
+R17,Skills: Deep Learning and NLP,Deep Learning|NLP,Deep Learning,1,Explicit concept
+R18,Skills: Deep Learning and NLP,Deep Learning|NLP,Data Engineering,0,Separate specialty
+R19,Skills: React and JavaScript,React|JavaScript,JavaScript,1,Explicit language
+R20,Skills: React and JavaScript,React|JavaScript,Python,0,Language absent
+R21,Skills: MLOps and Airflow,MLOps|Airflow,MLOps,1,Explicit skill
+R22,Skills: C++ and Java,C++|Java,Java,1,Explicit language
+R23,Skills: C++ and Java,C++|Java,JavaScript,0,Distinct language
+R24,Skills: ChromaDB and LangChain,ChromaDB|LangChain,LangChain,1,Explicit framework
+R25,Skills: SQL and PostgreSQL,SQL|PostgreSQL,PostgreSQL,1,Explicit database
+R26,Skills: Docker and Kubernetes,Docker|Kubernetes,Kubernetes,1,Explicit orchestration
+R27,Skills: pandas and scikit-learn,Pandas|Scikit-learn,Scikit-learn,1,Explicit library
+R28,Skills: Streamlit and FastAPI,Streamlit|FastAPI,FastAPI,1,Explicit framework
+R29,Skills: Git and Docker,Git|Docker,Project Management,0,Not evidenced by tools
+R30,Skills: Data Analysis and Excel,Data Analysis|Excel,Data Analysis,1,Explicit analytical field
+R31,Skills: no Docker experience; comfortable with Kubernetes,Kubernetes,Docker,0,Explicit lack of Docker experience
+R32,Skills: Built dashboards in Power BI,Power BI,Power BI,1,Explicit dashboard tool
+R33,Skills: PostgreSQL; no SQL experience,PostgreSQL,SQL,0,Explicit lack of SQL experience
+R34,Skills: CV editing and application tracking,,Computer Vision,0,CV means curriculum vitae here
+R35,Skills: Experience with FAISS but not ChromaDB,FAISS,ChromaDB,0,Explicit negation
+R36,Skills: React and no JavaScript experience,React,JavaScript,0,Explicit negation
+R37,Skills: Research using pandas,Research|Pandas,Pandas,1,Explicit library
+R38,Skills: We don't use Docker,,Docker,0,Contraction-based negation exposes parser limit
+R39,Skills: Python basics but no PyTorch experience,Python,PyTorch,0,Explicit lack of PyTorch experience

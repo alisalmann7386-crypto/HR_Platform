@@ -26,7 +26,15 @@ def main():
     if len(selection):
         subset=requirements[requirements.Role.isin(selection.Job_Role.unique())]
         projects=pd.read_csv(DATA/'workforce/projects.csv');projects=projects[projects.Employee_ID.isin(displayed_ids)] if uploaded is None else None
-        G=build_graph(selection,subset,projects);st.plotly_chart(plot_graph(G),use_container_width=True)
+        with st.spinner('Building employee–skill–role graph…'):
+            G=build_graph(selection,subset,projects)
+            figure=plot_graph(G)
+        st.plotly_chart(figure,use_container_width=True)
+        focus=st.selectbox('Inspect employee',displayed_ids)
+        view=selection[selection.Employee_ID==focus]
+        with st.container(border=True):
+            st.write(f"**{focus}** · {view.Job_Role.iloc[0]} · {view.Department.iloc[0]}")
+            st.write('Skills: '+', '.join(f'{r.Skill} ({r.Skill_Level})' for r in view.itertuples()))
         st.caption(f'Drawing {len(displayed_ids)} employees; graph cap is for readability only. Hover nodes; scroll to zoom.')
         with st.expander('Graph edge evidence'):st.dataframe(pd.DataFrame([{'Source':a,'Target':b,**v} for a,b,v in G.edges(data=True)]),hide_index=True)
     else:st.info('No employees match those graph filters.')
