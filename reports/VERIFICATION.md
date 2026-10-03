@@ -2,7 +2,7 @@
 
 ## UI and evaluation update — 3 October 2026
 
-- The attached white/navy/blue UI prompt was applied across shared styling and page workflows. Interactive interviewer question edits/removals and visible source context were added.
+- The original white/navy/blue UI brief was applied across shared styling and page workflows. A later dark navy redesign updates the shared Streamlit theme, charts, graph, home cards and dashboard presentation while retaining backend calculations. Interactive interviewer question edits/removals and visible source context were added.
 - Fresh Python 3.12 virtual environment installed project dependencies. MiniLM downloaded and built the six-document semantic policy index.
 - 39 author-curated recruitment cases: extraction precision 0.986, recall 0.971; alignment precision 0.957, recall 1.000. These are synthetic examples, not independent real HR validation.
 - 26 curated policy queries: Recall@5 1.000 for expected sources and out-of-scope abstention 0.750. A cryptocurrency reimbursement question retrieved related policy excerpts despite having no supported answer.

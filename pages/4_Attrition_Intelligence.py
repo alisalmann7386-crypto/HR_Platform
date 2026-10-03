@@ -63,7 +63,7 @@ def show_prediction(frame,pipe,meta,batch=False):
             st.subheader('Factors decreasing model score')
             st.dataframe(explanation[explanation.SHAP_log_odds<0].head(8),hide_index=True)
         fig=px.bar(explanation.head(15).sort_values('SHAP_log_odds'),x='SHAP_log_odds',y='Feature',orientation='h',color='Direction',
-                   color_discrete_map={'Increases model score':'#d97706','Decreases model score':'#2563eb'})
+                   color_discrete_map={'Increases model score':'#F59E0B','Decreases model score':'#3B82F6'})
         st.plotly_chart(fig,use_container_width=True)
         st.caption('SHAP contributions are log-odds changes in the model score. They describe model behavior and do not establish causes.')
         download_csv(explanation,'employee_shap.csv')
