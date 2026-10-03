@@ -1,0 +1,40 @@
+case_id,expected_skills,extracted_skills,requirement,expected_alignment,predicted_alignment,status,similarity,evidence,reason
+R01,"['Python', 'SQL']","['Python', 'SQL']",Python,1,1,Strong,1.0,Skills: Python and SQL,Explicit Python
+R02,"['Python', 'SQL']","['Python', 'SQL']",SQL,1,1,Strong,1.0,Skills: Python and SQL,Explicit SQL
+R03,"['Python', 'SQL']","['Python', 'SQL']",Docker,0,0,Not evidenced,0.0,,Docker absent
+R04,"['NLP', 'PyTorch']","['NLP', 'PyTorch']",NLP,1,1,Strong,1.0,Skills: natural language processing and PyTorch,Full phrase alias
+R05,"['Data Analysis', 'PostgreSQL']","['Data Analysis', 'PostgreSQL']",Postgres,1,1,Strong,1.0,Skills: PostgreSQL and data analysis,Postgres alias
+R06,"['AWS', 'Docker']","['AWS', 'Docker']",Kubernetes,0,0,Not evidenced,0.0,,Container use does not establish orchestration
+R07,"['ChromaDB', 'RAG']","['ChromaDB', 'RAG']",RAG,1,1,Strong,1.0,Skills: retrieval augmented generation and ChromaDB,RAG alias
+R08,"['ChromaDB', 'RAG']","['ChromaDB', 'RAG']",FAISS,0,0,Not evidenced,0.0,,Other vector store not equivalent
+R09,"['Computer Vision', 'TensorFlow']","['Computer Vision', 'TensorFlow']",Computer Vision,1,1,Strong,1.0,Skills: TensorFlow and computer vision,Explicit full phrase
+R10,"['Computer Vision', 'TensorFlow']","['Computer Vision', 'TensorFlow']",PyTorch,0,0,Not evidenced,0.0,,Different framework
+R11,"['AWS', 'Spark']","['AWS', 'Spark']",AWS,1,1,Strong,1.0,Skills: Amazon Web Services and Spark,Cloud alias
+R12,"['FastAPI', 'Git']","['FastAPI', 'Git']",Streamlit,0,0,Not evidenced,0.0,,Other framework
+R13,"['Machine Learning', 'Pandas']","['Machine Learning', 'Pandas']",Machine Learning,1,1,Strong,1.0,Skills: ML and Pandas,ML alias
+R14,"['Excel', 'Statistics']","['Excel', 'Statistics']",Statistics,1,1,Strong,1.0,Skills: Statistics and Excel,Explicit concept
+R15,"['Power BI', 'Tableau']","['Power BI', 'Tableau']",Power BI,1,1,Strong,1.0,Skills: Power BI and Tableau,Explicit tool
+R16,"['Azure', 'GCP']","['Azure', 'GCP']",AWS,0,0,Not evidenced,0.0,,Other cloud vendors
+R17,"['Deep Learning', 'NLP']","['Deep Learning', 'NLP']",Deep Learning,1,1,Strong,1.0,Skills: Deep Learning and NLP,Explicit concept
+R18,"['Deep Learning', 'NLP']","['Deep Learning', 'NLP']",Data Engineering,0,0,Not evidenced,0.0,,Separate specialty
+R19,"['JavaScript', 'React']","['JavaScript', 'React']",JavaScript,1,1,Strong,1.0,Skills: React and JavaScript,Explicit language
+R20,"['JavaScript', 'React']","['JavaScript', 'React']",Python,0,0,Not evidenced,0.0,,Language absent
+R21,"['Airflow', 'MLOps']","['Airflow', 'MLOps']",MLOps,1,1,Strong,1.0,Skills: MLOps and Airflow,Explicit skill
+R22,"['C++', 'Java']","['C++', 'Java']",Java,1,1,Strong,1.0,Skills: C++ and Java,Explicit language
+R23,"['C++', 'Java']","['C++', 'Java']",JavaScript,0,0,Not evidenced,0.0,,Distinct language
+R24,"['ChromaDB', 'LangChain']","['ChromaDB', 'LangChain']",LangChain,1,1,Strong,1.0,Skills: ChromaDB and LangChain,Explicit framework
+R25,"['PostgreSQL', 'SQL']","['PostgreSQL', 'SQL']",PostgreSQL,1,1,Strong,1.0,Skills: SQL and PostgreSQL,Explicit database
+R26,"['Docker', 'Kubernetes']","['Docker', 'Kubernetes']",Kubernetes,1,1,Strong,1.0,Skills: Docker and Kubernetes,Explicit orchestration
+R27,"['Pandas', 'Scikit-learn']","['Pandas', 'Scikit-learn']",Scikit-learn,1,1,Strong,1.0,Skills: pandas and scikit-learn,Explicit library
+R28,"['FastAPI', 'Streamlit']","['FastAPI', 'Streamlit']",FastAPI,1,1,Strong,1.0,Skills: Streamlit and FastAPI,Explicit framework
+R29,"['Docker', 'Git']","['Docker', 'Git']",Project Management,0,0,Not evidenced,0.0,,Not evidenced by tools
+R30,"['Data Analysis', 'Excel']","['Data Analysis', 'Excel']",Data Analysis,1,1,Strong,1.0,Skills: Data Analysis and Excel,Explicit analytical field
+R31,['Kubernetes'],['Kubernetes'],Docker,0,0,Not evidenced,0.0,,Explicit lack of Docker experience
+R32,['Power BI'],['Power BI'],Power BI,1,1,Strong,1.0,Skills: Built dashboards in Power BI,Explicit dashboard tool
+R33,['PostgreSQL'],['PostgreSQL'],SQL,0,0,Not evidenced,0.0,,Explicit lack of SQL experience
+R34,[''],[],Computer Vision,0,0,Not evidenced,0.0,,CV means curriculum vitae here
+R35,['FAISS'],['FAISS'],ChromaDB,0,0,Not evidenced,0.0,,Explicit negation
+R36,['React'],['React'],JavaScript,0,0,Not evidenced,0.0,,Explicit negation
+R37,"['Pandas', 'Research']","['Pandas', 'Research']",Pandas,1,1,Strong,1.0,Skills: Research using pandas,Explicit library
+R38,[''],['Docker'],Docker,0,1,Strong,1.0,Skills: We don't use Docker,Contraction-based negation exposes parser limit
+R39,['Python'],['Python'],PyTorch,0,0,Not evidenced,0.0,,Explicit lack of PyTorch experience

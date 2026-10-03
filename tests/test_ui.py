@@ -28,7 +28,7 @@ def test_recruitment_to_interview_ui():
     app.button[0].click().run()
     app.switch_page('pages/2_Interview_Agent.py').run()
     app.button[0].click().run()
-    app.text_area[0].set_value('I used vector embeddings, chunking and retrieval to supply context with citations. I evaluated recall on test queries.')
+    app.text_area[1].set_value('I used vector embeddings, chunking and retrieval to supply context with citations. I evaluated recall on test queries.')
     app.button[1].click().run()
     assert not app.exception and not app.error
     assert len(app.session_state['interview_reports'])==1
@@ -63,3 +63,16 @@ def test_rebuilding_policy_index_clears_previous_answer():
     app.button[0].click().run()
     assert 'policy_result' not in app.session_state
     assert not app.exception and not app.error
+
+@pytest.mark.semantic
+def test_interviewer_can_edit_and_remove_question():
+    app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=90).run().switch_page('pages/1_Recruitment_Intelligence.py').run()
+    app.button[0].click().run()
+    app.switch_page('pages/2_Interview_Agent.py').run()
+    app.button[0].click().run()
+    original=len(app.session_state['interview_questions']['questions'])
+    app.text_area[0].set_value('Explain the candidate project pipeline and evaluation evidence.').run()
+    assert app.session_state['interview_questions']['questions'][0]['question'].startswith('Explain the candidate project')
+    app.button[2].click().run()
+    assert len(app.session_state['interview_questions']['questions'])==original-1
+    assert not app.error and not app.exception

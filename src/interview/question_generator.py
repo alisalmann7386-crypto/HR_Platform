@@ -76,6 +76,27 @@ def _validate_questions(result):
     return valid_questions if valid_questions else None
 
 
+def _ground_questions(questions, candidate, jd, analysis):
+    """Attach traceable source context; never invent a resume quotation."""
+    skills = {item['skill']: item['evidence'] for item in candidate.get('skill_evidence', [])}
+    projects = candidate.get('projects', [])
+    requirements = jd.get('mandatory_skills', []) + jd.get('preferred_skills', [])
+    for item in questions:
+        text = item['question'].casefold()
+        project = next((p for p in projects if p.casefold() in text), None)
+        mentioned = next((skill for skill in requirements if skill.casefold() in text), None)
+        supported = next((skill for skill in skills if skill.casefold() in text), None)
+        if project:
+            item['based_on'] = f'Resume project: {project}'
+        elif supported:
+            item['based_on'] = f'Resume evidence: {skills[supported]}'
+        elif mentioned:
+            item['based_on'] = f'Job requirement: {mentioned}; resume evidence not established'
+        else:
+            item['based_on'] = 'Role fundamentals or scenario; no specific resume claim'
+    return questions
+
+
 def generate_questions(candidate, jd, analysis, use_llm=False):
     # ---------------------------------------------------------
     # LOCAL / FALLBACK QUESTIONS
@@ -180,7 +201,7 @@ def generate_questions(candidate, jd, analysis, use_llm=False):
     # ---------------------------------------------------------
 
     if not use_llm:
-        return questions[:15]
+        return _ground_questions(questions[:15], candidate, jd, analysis)
 
     # ---------------------------------------------------------
     # WITH LLM
@@ -260,7 +281,7 @@ overfitting
         validated = _validate_questions(result)
 
         if validated:
-            return validated[:15]
+            return _ground_questions(validated[:15], candidate, jd, analysis)
 
     except (json.JSONDecodeError, ValueError, TypeError, KeyError):
         pass
@@ -271,4 +292,4 @@ overfitting
     # Automatically use locally generated questions.
     # ---------------------------------------------------------
 
-    return questions[:15]
+    return _ground_questions(questions[:15], candidate, jd, analysis)

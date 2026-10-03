@@ -36,7 +36,10 @@ def main():
     with b:st.plotly_chart(px.bar(gaps.groupby('Role',as_index=False).Coverage.mean(),x='Role',y='Coverage',title='Mean role skill coverage — synthetic'),use_container_width=True)
     if records:st.plotly_chart(px.histogram(pd.DataFrame([r['analysis'] for r in records]),x='job_relevance_score',title='Session recruitment relevance scores'),use_container_width=True)
     st.subheader('Multi-source department view');summary=department_summary(df);st.dataframe(summary,hide_index=True)
-    for insight in workforce_insights(summary,gaps,skills):st.info(insight)
+    st.subheader('AI Workforce Insights')
+    for insight in workforce_insights(summary,gaps,skills):
+        with st.container(border=True):st.write(insight)
+    st.caption('These observations describe model patterns and synthetic skill capacity; investigate context before any HR action.')
     with st.expander('Common model signals among elevated records'):
         signals=df.loc[df.Risk_Band.eq('Elevated'),'Top_Model_Signals'].str.split('; ').explode().value_counts().head(8)
         st.dataframe(signals.rename('Occurrences in top three contributions').reset_index(),hide_index=True)
