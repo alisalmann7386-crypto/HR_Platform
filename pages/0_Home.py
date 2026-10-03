@@ -6,7 +6,19 @@ title('WorkforceAI', 'AI-Driven Intelligent Workforce Management and HR Decision
 st.markdown('### Understand people. Detect risks. Discover skills. Support better HR decisions.')
 st.write('A connected workspace for evidence-based recruitment, interviews, HR policy retrieval, attrition analytics and capability planning.')
 st.markdown('<span class="wf-badge">6 connected modules</span><span class="wf-badge">Fictional policy pack</span><span class="wf-badge">Human review required</span>',unsafe_allow_html=True)
-start_tab, modules_tab, demo_tab = st.tabs(['Start here','Six modules','7-minute demo'])
+modules=[('📄','Recruitment Intelligence','Structured JD and resume comparison','pages/1_Recruitment_Intelligence.py'),
+         ('💬','Interview Assistance','Questions grounded in candidate and job evidence','pages/2_Interview_Agent.py'),
+         ('📚','Policy Reasoning','Page and section citations from uploaded PDFs','pages/3_HR_Policy_Assistant.py'),
+         ('🔎','Attrition Analytics','Saved model estimates and SHAP contributions','pages/4_Attrition_Intelligence.py'),
+         ('🔗','Skill Intelligence','Employee–skill–role graph and capacity gaps','pages/6_Skill_Graph.py'),
+         ('📊','Workforce Analytics','Joined department summaries and insights','pages/5_Workforce_Dashboard.py')]
+st.subheader('Explore the platform')
+for start in (0,3):
+    for col,(icon,name,desc,path) in zip(st.columns(3),modules[start:start+3]):
+        with col:
+            st.markdown(f'<div class="wf-card"><h3>{icon} {name}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
+            st.page_link(path,label='Open module →')
+start_tab, demo_tab = st.tabs(['Start here','7-minute demo'])
 with start_tab:
     st.subheader('Choose your workflow')
     paths=[('📊','Explore workforce','See department signals, skills and capacity gaps together.','pages/5_Workforce_Dashboard.py'),
@@ -19,18 +31,6 @@ with start_tab:
     a,b=st.columns(2)
     a.metric('Trained model','Ready' if (MODELS/'attrition_model.joblib').exists() else 'Run training')
     b.metric('Policy evidence','Ready' if (INDEX/'metadata.json').exists() else 'Builds on first visit')
-with modules_tab:
-    modules=[('📄','Recruitment Intelligence','Structured JD and resume comparison','pages/1_Recruitment_Intelligence.py'),
-             ('💬','Interview Assistance','Questions grounded in candidate and job evidence','pages/2_Interview_Agent.py'),
-             ('📚','Policy Reasoning','Page and section citations from uploaded PDFs','pages/3_HR_Policy_Assistant.py'),
-             ('🔎','Attrition Analytics','Saved model estimates and SHAP contributions','pages/4_Attrition_Intelligence.py'),
-             ('🔗','Skill Intelligence','Employee–skill–role graph and capacity gaps','pages/6_Skill_Graph.py'),
-             ('📊','Workforce Analytics','Joined department summaries and insights','pages/5_Workforce_Dashboard.py')]
-    for start in (0,3):
-        for col,(icon,name,desc,path) in zip(st.columns(3),modules[start:start+3]):
-            with col:
-                st.markdown(f'<div class="wf-card"><h3>{icon} {name}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
-                st.page_link(path,label='Open module →')
 with demo_tab:
     st.write('Dashboard → Recruitment → Interview → Policy Assistant → Attrition → Model Performance → Skill Graph → Dashboard')
     st.info('This prototype supports human decisions. Records, policies and auxiliary workforce data are synthetic or fictional.')

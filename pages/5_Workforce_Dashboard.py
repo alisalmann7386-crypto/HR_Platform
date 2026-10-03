@@ -1,4 +1,5 @@
 import streamlit as st
+from html import escape
 import pandas as pd
 import plotly.express as px
 from src.utils.ui import title,guard,workforce
@@ -33,12 +34,16 @@ def main():
     with b:st.plotly_chart(px.bar(gaps.sort_values('Gap',ascending=False).head(12),x='Skill',y='Gap',color='Role',title='Largest role-skill gaps — synthetic'),use_container_width=True)
     a,b=st.columns(2)
     with a:st.plotly_chart(px.pie(df,names='Department',title='Employees by department'),use_container_width=True)
-    with b:st.plotly_chart(px.bar(gaps.groupby('Role',as_index=False).Coverage.mean(),x='Role',y='Coverage',title='Mean role skill coverage — synthetic'),use_container_width=True)
+    with b:
+        history=df.groupby('Department',as_index=False).agg(Employees=('Employee_ID','nunique'),Historical_Attrition=('Attrition',lambda x: int(x.eq('Yes').sum())))
+        history['Historical_Attrition_Rate']=history.Historical_Attrition/history.Employees
+        st.plotly_chart(px.bar(history,x='Department',y='Historical_Attrition_Rate',title='Historical attrition by department',labels={'Historical_Attrition_Rate':'Recorded attrition fraction'}),use_container_width=True)
+    st.plotly_chart(px.bar(gaps.groupby('Role',as_index=False).Coverage.mean(),x='Role',y='Coverage',title='Mean role skill coverage — synthetic'),use_container_width=True)
     if records:st.plotly_chart(px.histogram(pd.DataFrame([r['analysis'] for r in records]),x='job_relevance_score',title='Session recruitment relevance scores'),use_container_width=True)
     st.subheader('Multi-source department view');summary=department_summary(df);st.dataframe(summary,hide_index=True)
     st.subheader('AI Workforce Insights')
     for insight in workforce_insights(summary,gaps,skills):
-        with st.container(border=True):st.write(insight)
+        st.markdown(f'<div class="wf-insight"><h3>Workforce insight</h3><p>{escape(insight)}</p></div>',unsafe_allow_html=True)
     st.caption('These observations describe model patterns and synthetic skill capacity; investigate context before any HR action.')
     with st.expander('Common model signals among elevated records'):
         signals=df.loc[df.Risk_Band.eq('Elevated'),'Top_Model_Signals'].str.split('; ').explode().value_counts().head(8)

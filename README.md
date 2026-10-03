@@ -201,7 +201,7 @@ See `reports/DIRECTORY_TREE.txt` for the final file inventory. Main source direc
 
 ## UI and six improvement checks
 
-The interface uses one shared white/navy/blue design system. The landing page shows the source-to-dashboard workflow. Recruitment has a five-step flow and requirement evidence; interview questions can be edited; policy results show source cards and exact retrieved text; individual and batch attrition views display separate SHAP directions; the skills page offers an employee detail view. The persisted metrics remain sourced from real model outputs.
+The interface uses one shared dark navy/blue design system across the sidebar, controls, cards, tables and charts. The landing page shows six modules and the source-to-dashboard workflow. Recruitment has a step-based flow and requirement evidence; interview questions can be edited; policy results show source cards and exact retrieved text; individual and batch attrition views display separate SHAP directions; the skills page offers an employee detail view. The persisted metrics remain sourced from real model outputs.
 
 Evaluation cases in `data/evaluation/` are **author-curated fictional examples**, not independent labels or evidence of real HR effectiveness. Run:
 
