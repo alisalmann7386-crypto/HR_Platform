@@ -5,6 +5,7 @@ from src.utils.ui import title,guard,model,download_csv
 from src.utils.config import IBM,MODELS,DATA
 from src.attrition.preprocessing import load_data
 from src.attrition.predict import predict_batch
+from src.utils.validators import validate_features, feature_range_warnings
 from src.attrition.explain import local_explanation, contributions
 import numpy as np
 
@@ -37,6 +38,9 @@ def manual_form(meta):
 
 def show_prediction(frame,pipe,meta,batch=False):
     with st.spinner('Running saved model and preparing explanation…'):
+        checked=validate_features(frame,meta['schema'])
+    for warning in feature_range_warnings(checked,meta['schema']):st.warning(warning)
+    with st.spinner('Running saved model…'):
         result=predict_batch(frame,pipe,meta)
     if batch:
         if len(result):

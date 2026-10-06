@@ -4,6 +4,7 @@ from src.utils.ui import title, guard, llm_toggle
 from src.utils.helpers import timestamp
 from src.interview.question_generator import generate_questions
 from src.interview.response_analyzer import analyze_response
+from src.interview.session import new_interview, restore_draft, save_draft, clear_interview_widgets
 
 
 def main():
@@ -26,7 +27,8 @@ def main():
     if st.button('Generate interview', type='primary'):
         with st.spinner('Preparing questions from role and resume evidence…'):
             questions = generate_questions(record['candidate'], record['job'], record['analysis'], llm)
-        st.session_state['interview_questions'] = {'candidate_id': cid, 'questions': questions}
+        clear_interview_widgets(st.session_state,cid)
+        st.session_state['interview_questions'] = new_interview(cid,questions)
         st.session_state.pop('latest_interview_analysis', None)
     pack = st.session_state.get('interview_questions', {})
     if pack.get('candidate_id') == cid:
@@ -37,23 +39,28 @@ def main():
             st.subheader(f'Interview questions · {len(questions)} remaining')
             i = st.selectbox('Question', range(len(questions)), format_func=lambda n: f"{n+1}. {questions[n]['category']}")
             q = questions[i]
+            keys=restore_draft(st.session_state,pack,q)
+            draft_args=(st.session_state,pack,q)
+            st.caption('Question mode: '+q.get('generation_mode','Interviewer review required'))
             st.caption('Why this question: ' + q.get('based_on', 'Interviewer review required'))
-            edited = st.text_area('Edit question before asking', value=q['question'], key=f'question_edit_{cid}_{i}')
+            edited = st.text_area('Edit question before asking', key=keys['question_edit'], on_change=save_draft, args=draft_args)
             if edited.strip() and edited.strip() != q['question']:
                 q['question'] = edited.strip()
                 st.caption('Edited by interviewer; source context still requires review.')
-            response = st.text_area('Candidate answer', height=170, key=f'answer_{cid}_{i}')
-            notes = st.text_area('Interviewer notes', key=f'notes_{cid}_{i}')
+            response = st.text_area('Candidate answer', height=170, key=keys['answer'], on_change=save_draft, args=draft_args)
+            notes = st.text_area('Interviewer notes', key=keys['notes'], on_change=save_draft, args=draft_args)
             if st.button('Analyze answer and add to report'):
-                analysis = analyze_response(q, response, llm)
-                report = {'candidate_id': cid, 'job_role': record['job']['job_title'], 'question': dict(q),
+                snapshot={k:v for k,v in q.items() if k!='draft'}
+                analysis = analyze_response(snapshot, response, llm)
+                report = {'candidate_id': cid, 'job_role': record['job']['job_title'], 'interview_id': pack['interview_id'], 'question': snapshot,
                           'answer': response, 'analysis': analysis, 'interviewer_notes': notes, 'timestamp': timestamp()}
                 st.session_state.setdefault('interview_reports', []).append(report)
                 st.session_state['latest_interview_analysis'] = report
             report = st.session_state.get('latest_interview_analysis')
-            if report and report['candidate_id'] == cid and report['question'] == q:
+            if report and report['candidate_id'] == cid and report['question'].get('question_id') == q['question_id'] and report['question']['question'] == q['question'] and report['answer'] == response:
                 st.json(report['analysis'])
             if st.button('Remove this question'):
+                for key in keys.values():st.session_state.pop(key,None)
                 questions.pop(i)
                 st.session_state.pop('latest_interview_analysis', None)
                 st.rerun()

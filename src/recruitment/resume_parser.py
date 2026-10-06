@@ -9,9 +9,16 @@ def sections(text):
     for line in text.splitlines():
         line=line.strip()
         if not line or SENSITIVE_LINE.search(line): continue
-        clean=line.strip(': ').lower()
+        clean=line.split(':',1)[0].strip().lower()
         found=next((k for k,names in SECTION_NAMES.items() if clean in names),None)
-        if found: current=found;continue
+        if found:
+            current=found
+            content=line.split(':',1)[1].strip() if ':' in line else ''
+            if content:out[current].append(content)
+            continue
+        if clean in {'references','professional references','interests','hobbies','personal details','personal information','languages','declaration','referees'}:
+            current=None
+            continue
         # Ignore headers/contact and unsupported sections; only recognized professional content used.
         if '@' in line or re.search(r'https?://|linkedin.com|github.com|\+?\d[\d ()-]{8,}',line):continue
         if current: out[current].append(line)

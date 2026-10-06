@@ -1,4 +1,5 @@
 import json
+import hashlib
 import streamlit as st
 import pandas as pd
 from src.utils.ui import title, guard
@@ -24,6 +25,8 @@ def main():
     with st.expander('Adjust recruiter weights'):
         weights={key:st.number_input(key.title()+' weight',0,100,value=value) for key,value in DEFAULT_WEIGHTS.items()}
         st.caption('Active components are normalized; missing resume evidence does not prove missing ability.')
+    upload_hashes=[hashlib.sha256(p.getvalue()).hexdigest() for p in uploads or []]
+    signature=hashlib.sha256(json.dumps([text,demo,backend,weights,upload_hashes],sort_keys=True).encode()).hexdigest()
     st.subheader('Step 3 · Analyze qualifications')
     if st.button('Analyze qualifications',type='primary'):
         jd=parse_jd(text)
@@ -36,6 +39,7 @@ def main():
                 candidate=parse_resume(source,f'Candidate {i:02}')
                 records.append({'candidate':candidate,'job':jd,'analysis':analyze(candidate,jd,weights,backend)})
         st.session_state['recruitment_records']=records
+        st.session_state['recruitment_signature']=signature
         st.session_state.pop('interview_questions',None)
         st.session_state.pop('latest_interview_analysis',None)
         for key in list(st.session_state):
@@ -43,6 +47,8 @@ def main():
         st.session_state['interview_reports']=[]
     records=st.session_state.get('recruitment_records',[])
     if records:
+        if st.session_state.get('recruitment_signature')!=signature:
+            st.warning('Inputs changed. These results and exports belong to the previous analysis; analyze again to update them.')
         job=records[0]['job'];st.subheader('Parsed role')
         a,b,c=st.columns(3)
         a.metric('Job title',job['job_title']);b.metric('Mandatory skills',len(job['mandatory_skills']));c.metric('Preferred skills',len(job['preferred_skills']))

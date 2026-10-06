@@ -200,6 +200,7 @@ def generate_questions(candidate, jd, analysis, use_llm=False):
     # WITHOUT LLM
     # ---------------------------------------------------------
 
+    for question in questions:question['generation_mode']='Local template'
     if not use_llm:
         return _ground_questions(questions[:15], candidate, jd, analysis)
 
@@ -281,9 +282,10 @@ overfitting
         validated = _validate_questions(result)
 
         if validated:
+            for question in validated:question['generation_mode']='LLM-generated; interviewer review required'
             return _ground_questions(validated[:15], candidate, jd, analysis)
 
-    except (json.JSONDecodeError, ValueError, TypeError, KeyError):
+    except (RuntimeError, json.JSONDecodeError, ValueError, TypeError, KeyError):
         pass
 
     # ---------------------------------------------------------
@@ -292,4 +294,5 @@ overfitting
     # Automatically use locally generated questions.
     # ---------------------------------------------------------
 
+    for question in questions:question['generation_mode']='Local fallback: LLM unavailable or invalid output'
     return _ground_questions(questions[:15], candidate, jd, analysis)

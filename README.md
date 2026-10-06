@@ -25,7 +25,7 @@ python scripts/build_policy_index.py --input data/policies
 streamlit run app.py
 ```
 
-Git ignores `vector_store/`. On a fresh deployment, opening the Policy Assistant builds the bundled semantic index automatically and keeps it for subsequent requests. You can also prepare it explicitly with `python scripts/build_policy_index.py --input data/policies`, then run `python scripts/check_deployment.py` to check the saved model and retrieval. MiniLM downloads on first use (internet required) and then uses the Hugging Face cache. No GPU or API key is required for training, matching, retrieval or extractive answers. Optional LLM synthesis requires a key.
+Git ignores `vector_store/`. On a fresh deployment, opening the Policy Assistant builds the bundled semantic index automatically and keeps it for subsequent requests. You can also prepare it explicitly with `python scripts/build_policy_index.py --input data/policies`, then run `python scripts/check_deployment.py` to check the saved model and retrieval. MiniLM downloads on first use (internet required) and then uses the Hugging Face cache. No GPU or API key is required for training, matching, retrieval or extractive answers. Optional LLM source selection and interview analysis require a key. Policy responses display validated source excerpts rather than unchecked generated interpretations.
 
 On Linux, a CPU-only PyTorch installation can reduce disk use:
 
@@ -56,7 +56,7 @@ Training also invokes EDA. You do not have to rerun training every time you star
 |---|---|---|
 | Recruitment | PDF/DOCX resumes; pasted or uploaded JD | Structured professional evidence, configurable relevance score, requirement-to-resume matches; candidate records pass to Interview |
 | Interview | Same candidate, job and recruitment analysis | Six question categories, answer rubric, JSON/Markdown report with notes |
-| Policy RAG | Six supplied PDFs or session uploads | Page/section chunks, MiniLM/FAISS retrieval, source excerpts or optional LLM answer with validated quotes |
+| Policy RAG | Six supplied PDFs or session uploads | Page/section chunks, MiniLM/FAISS retrieval, source excerpts or LLM-selected passages with validated quotes |
 | Attrition | Manual form, employee CSV or bundled employee | Uncalibrated model probability, attention band, SHAP log-odds contributions |
 | Skills | Employee skills, proficiency, role requirements, demo projects | Typed NetworkX graph, level-aware distinct-employee capacities, gaps and development options |
 | Dashboard | IBM profile + predictions + skills + performance + attendance + training | Employee_ID joins, KPIs, department summaries, charts and a policy investigation link |
@@ -148,11 +148,11 @@ Local questions use role skills, projects and unmatched requirements. Each quest
 
 ## RAG methodology and configuration
 
-PDF extraction → page-preserving section detection → whitespace cleanup → overlapping chunks → normalized MiniLM embeddings → FAISS inner-product search (cosine on normalized vectors) → retrieved evidence → optional LLM synthesis.
+PDF extraction → page-preserving section detection → whitespace cleanup → overlapping chunks → normalized MiniLM embeddings → FAISS inner-product search (cosine on normalized vectors) → retrieved evidence → optional LLM source selection.
 
-Default model: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions). Defaults: **140 words per chunk, 25-word overlap, top_k=6, minimum similarity=0.30**. The supplied pack creates 72 chunks across 12 pages. Chunk metadata contains filename, page number, section, stable chunk ID and document SHA-256. Chunk sizes use words, not tokens; the default is kept modest for MiniLM's input limit.
+Default model: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions). Defaults: **140 words per chunk, 25-word overlap, top_k=6, minimum similarity=0.30**. The supplied pack creates 72 chunks across 12 pages. Chunk metadata contains filename, page number, section, stable chunk ID and document SHA-256. Word-count chunks are additionally split against the encoder token budget, including section headings and special tokens.
 
-Without an API key, the app returns exact retrieved excerpts with citations and clearly labels them extractive. With a configured LLM, it asks for structured claims and validates that each source ID exists and each quote is a verbatim substring of that source. This prevents invented citation IDs/quotes, but does not prove the generated interpretation is entailed. Low-score retrieval or invalid generated citations triggers an abstention. Similarity is **not calibrated confidence**. Policies about absent topics should be referred to HR; do not infer entitlements from nearby content.
+Without an API key, the app returns exact retrieved excerpts with citations and clearly labels them extractive. With a configured LLM, it validates source IDs and verbatim quotations, then displays the selected full source passages. Unchecked generated interpretations are discarded. Low-score retrieval, uncovered query topics or invalid citations trigger abstention; provider outages return labeled extractive evidence. Similarity is **not calibrated confidence**. Policies about absent topics should be referred to HR; do not infer entitlements from nearby content.
 
 Unavailable embeddings do not silently change the algorithm. An explicit fallback is provided:
 
@@ -201,7 +201,7 @@ See `reports/DIRECTORY_TREE.txt` for the final file inventory. Main source direc
 
 ## UI and six improvement checks
 
-The interface uses one shared dark navy/blue design system across the sidebar, controls, cards, tables and charts. The landing page shows six modules and the source-to-dashboard workflow. Recruitment has a step-based flow and requirement evidence; interview questions can be edited; policy results show source cards and exact retrieved text; individual and batch attrition views display separate SHAP directions; the skills page offers an employee detail view. The persisted metrics remain sourced from real model outputs.
+The interface uses a shared charcoal/sage design system across the sidebar, controls, cards, tables and charts. The landing page offers task-based HR entry points, grouped navigation and actual session counts. Dashboard charts are organized into overview, retention context and skills tabs. Recruitment has a step-based flow and requirement evidence; interview questions can be edited; policy results show source cards and exact retrieved text; individual and batch attrition views display separate SHAP directions; the skills page offers an employee detail view. The persisted metrics remain sourced from real model outputs.
 
 Evaluation cases in `data/evaluation/` are **author-curated fictional examples**, not independent labels or evidence of real HR effectiveness. Run:
 
@@ -224,15 +224,15 @@ See `reports/DEMO_GUIDE.md` for a 7–10 minute walkthrough. Browser screenshots
 
 ## Verification
 
-Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. The 30 September repository review passed **57 tests**; the 3 October UI and evaluation update passed **62 tests**, including 17 added regression cases for document uploads, session isolation, malformed policy responses and workforce identity validation. Exact build outcomes and remaining unverified items are in `reports/VERIFICATION.md`. Do not claim LLM quality from retrieval tests or a mocked response.
+Run `python -m pytest -q`. Semantic tests need the model and index. For a restricted offline environment, `python -m pytest -q -m 'not semantic'` tests local core functionality. The 30 September repository review passed **57 tests**; the 3 October UI and evaluation update passed **62 tests**, including 17 added regression cases for document uploads, session isolation, malformed policy responses and workforce identity validation. The latest review results supersede those historical counts; see `reports/ENGINEERING_REVIEW_2026_10.md`. Do not claim LLM quality from retrieval tests or a mocked response.
 
 ## Deployment
 
-For Streamlit Community Cloud or another host, use `app.py` as the entry point, Python 3.12, and install `requirements.txt`. Trusted model files are committed already; no retraining is required for a normal demo. The first visit to the Policy page builds the bundled index when needed. To check a fresh checkout before deployment, run `python scripts/check_deployment.py`. Add environment variables using the host's secret settings. Do not publish this prototype with real HR data: it lacks authentication, role-based access control, encryption policy, audit trails and multi-tenant storage controls.
+For Streamlit Community Cloud or another host, use `app.py` as the entry point, Python 3.12, and install `requirements.txt`. Trusted model files are committed already; no retraining is required for a normal demo. The first visit to the Policy page builds the bundled index when needed. To check a fresh checkout before deployment, run `python scripts/check_deployment.py`. Add environment variables using the host's secret settings. Do not publish this prototype with real HR data: its optional demo access gate is not enterprise identity, encryption policy, durable auditing or multi-tenant isolation.
 
 ## Ethical considerations and limitations
 
-IBM data is small and synthetic; auxiliary data and policies are fictional. No temporal forecast horizon or enterprise validation is available. Performance cannot be generalized to real employers. SHAP describes model behavior, not causes; correlation is not evidence for a personnel action. Sensitive field exclusion does not eliminate proxies or bias. Resume parsing is bounded and heuristic; semantic similarity does not verify competence. LLM output depends on context and may misinterpret it. Policies differ by employer and jurisdiction. Session state is not a production records system; uploaded temporary files remain on disk until host cleanup. Source quotation checks and prompt instructions are not a complete prompt-injection defense. Human review is necessary throughout.
+IBM data is small and synthetic; auxiliary data and policies are fictional. No temporal forecast horizon or enterprise validation is available. Performance cannot be generalized to real employers. SHAP describes model behavior, not causes; correlation is not evidence for a personnel action. Sensitive field exclusion does not eliminate proxies or bias. Resume parsing is bounded and heuristic; semantic similarity does not verify competence. LLM output depends on context and may misinterpret it. Policies differ by employer and jurisdiction. Session state is not a production records system; policy uploads support explicit deletion, replacement/failure cleanup and opportunistic expiry after 24 hours of inactivity. Source quotation checks and prompt instructions are not a complete prompt-injection defense. Human review is necessary throughout.
 
 ## Future scope
 
@@ -251,3 +251,56 @@ These are official implementation references, not fabricated research-paper cita
 - [imbalanced-learn sampling pipelines](https://imbalanced-learn.org/stable/auto_examples/pipeline/plot_pipeline_classification.html)
 
 Literature-review placeholders requiring verified academic references are in the report outline.
+
+
+## October engineering review
+
+See [the review and improvement plan](reports/ENGINEERING_REVIEW_2026_10.md) for reproduced bugs, fixes, test results and remaining limitations. The current interface groups HR tasks and uses a charcoal/sage theme. Desktop and mobile browser screenshots are in `reports/screenshots/`.
+
+![People workspace](reports/screenshots/overview-desktop.png)
+
+### Reliability and evidence behavior
+
+- Interview drafts survive question/page navigation in the same session. Stable IDs prevent answers moving when questions are removed. Regeneration starts a new interview; saved reports retain their original answers.
+- Provider failures produce labeled local interview or extractive-policy fallbacks. Generated policy claims are not shown merely because they contain a genuine quotation; the selected full source passages are displayed instead.
+- Policy retrieval checks topic coverage in addition to similarity and can abstain on unsupported topics. This conservative lexical gate can reject valid paraphrases; it is not a proof of entailment or calibrated confidence.
+- Semantic chunks fit the encoder token budget including headings. Existing indexes rebuild when chunk settings/version, source hashes or integrity checks change. Rebuilds are locked and atomic.
+- Lexical mode is accessible even when semantic-model setup fails. Uploaded policy indexes are session-specific; replacement/failure/logout cleanup and explicit deletion are supported. At most 20 PDFs, 20 MB each and 50 MB combined. Idle session folders expire after 24 hours, with opportunistic cleanup on policy visits/builds.
+- Recruitment and policy results identify stale inputs instead of silently presenting previous results as a new analysis. Resume parsing remains heuristic; manually inspect extracted evidence.
+
+### Reproducible setup
+
+Python 3.12 is the tested version. `requirements.txt` pins the saved model's serialization-sensitive dependencies and uses CPU-only PyTorch on Linux. A resolved `requirements-lock.txt` is also supplied for the tested environment:
+
+```bash
+python -m pip install -r requirements-lock.txt
+python -m pip check
+python scripts/check_deployment.py
+python -m pytest -q
+streamlit run app.py
+```
+
+No retraining is required. Never load uploaded joblib/pickle files. Initial semantic use needs a model download or a local `EMBEDDING_MODEL` path. Set `EMBEDDING_BACKEND=lexical` for offline policy mode; matching also offers explicit lexical mode.
+
+### Optional demo sign-in
+
+By default this remains a demonstration workspace. To enable the access gate, put the following in Streamlit host secrets (never commit the actual secrets file):
+
+```toml
+WORKFORCE_AUTH_ENABLED = "true"
+WORKFORCE_DATA_MODE = "demo"
+
+[workforce_users.reviewer]
+role = "reviewer"
+password_hash = "REPLACE_WITH_GENERATED_SCRYPT_HASH"
+```
+
+Generate a hash interactively without putting a password in shell history:
+
+```bash
+python -c "from getpass import getpass; from src.utils.access import password_hash; print(password_hash(getpass('Password: ')))"
+```
+
+Roles: `viewer` can open Overview, the bundled workforce Dashboard, Model Performance and About; `reviewer` and `admin` can use all modules. The gate validates access on protected pages, clears private session data at sign-out and limits repeated failed attempts in process memory. `WORKFORCE_DATA_MODE="confidential"` fails closed if the access gate is disabled. This setting alone does **not** make the application suitable for confidential deployment: organizational identity, tenant isolation, retention policy and durable auditing still require deployment-specific work. Do not use real candidate/employee data in the public demo.
+
+Optional LLM configuration still uses `LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY` and, for compatible providers, an HTTPS `LLM_BASE_URL`. Enabling the LLM checkbox sends submitted content to that provider. Live-provider behavior is separate from the deterministic tests.

@@ -22,3 +22,31 @@ def chunk_documents(pages,chunk_size=140,chunk_overlap=25):
                 chunks.append({k:v for k,v in page.items() if k!='text'}|{'section':section,'chunk_id':hashlib.sha256(identity.encode()).hexdigest()[:16],'text':chunk})
                 if start+chunk_size>=len(words):break
     return chunks
+
+
+def fit_semantic_chunks(chunks, tokenizer, max_tokens, overlap_words=25):
+    """Fit the actual encoder budget while preserving exact source word spans."""
+    def length(text):
+        return len(tokenizer.encode(text, add_special_tokens=True, truncation=False, verbose=False))
+    result = []
+    for chunk in chunks:
+        prefix = chunk['section']+' '
+        if length(prefix+chunk['text']) <= max_tokens:
+            result.append(chunk)
+            continue
+        words = chunk['text'].split()
+        start = 0
+        while start < len(words):
+            low, high, end = start+1, len(words), start
+            while low <= high:
+                middle = (low+high)//2
+                if length(prefix+' '.join(words[start:middle])) <= max_tokens:
+                    end, low = middle, middle+1
+                else:high = middle-1
+            if end == start:raise ValueError('Policy heading or unbroken word exceeds the embedding token budget.')
+            text = ' '.join(words[start:end])
+            identity = f"{chunk['chunk_id']}|tokens|{start}|{text}"
+            result.append(dict(chunk, text=text, chunk_id=hashlib.sha256(identity.encode()).hexdigest()[:16]))
+            if end == len(words):break
+            start = end-min(overlap_words, (end-start)//2)
+    return result

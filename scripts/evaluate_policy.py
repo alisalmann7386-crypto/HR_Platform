@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 import pandas as pd
 from src.rag.vector_store import search
+from src.rag.policy_agent import answer_question
 from src.utils.config import DATA, INDEX, REPORTS
 from src.utils.helpers import save_json
 
@@ -21,14 +22,15 @@ def evaluate(cases, index=INDEX, k=5, min_similarity=.30):
         rows.append({'case_id':case.case_id,'question':case.question,'answerable':bool(int(case.answerable)),
                      'expected_sources':case.expected_sources,'expected_source_hits':sum(hits),'expected_source_count':len(expected),
                      'all_expected_in_top_k':all(hits) if expected else None,
-                     'abstained':not found,'retrieved_sources':'; '.join(f"{r['document_name']}|{r['page_number']}|{r['section']}" for r in found)})
+                     'abstained':answer_question(case.question,k,min_similarity,folder=index)['mode']=='abstention','retrieved_sources':'; '.join(f"{r['document_name']}|{r['page_number']}|{r['section']}" for r in found)})
     supported=[r for r in rows if r['answerable']];unsupported=[r for r in rows if not r['answerable']]
     total=sum(r['expected_source_count'] for r in supported)
-    report={'benchmark':'author-curated questions for fictional policies; retrieval only, not answer faithfulness',
+    report={'benchmark':'author-curated fictional policies; retrieval and topic coverage, not claim faithfulness',
             'index_backend':meta['backend'],'top_k':k,'min_similarity':min_similarity,
             'questions':len(rows),'supported_questions':len(supported),'unsupported_questions':len(unsupported),
             'source_recall_at_k':sum(r['expected_source_hits'] for r in supported)/total if total else 0.,
             'all_sources_recalled_rate':sum(bool(r['all_expected_in_top_k']) for r in supported)/len(supported) if supported else 0.,
+            'supported_answer_coverage_rate':sum(not r['abstained'] for r in supported)/len(supported) if supported else 0.,
             'unsupported_abstention_rate':sum(r['abstained'] for r in unsupported)/len(unsupported) if unsupported else 0.}
     return report,rows
 

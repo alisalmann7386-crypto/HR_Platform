@@ -1,5 +1,5 @@
 {
-  "benchmark": "author-curated questions for fictional policies; retrieval only, not answer faithfulness",
+  "benchmark": "author-curated fictional policies; retrieval and topic coverage, not claim faithfulness",
   "index_backend": "semantic",
   "top_k": 5,
   "min_similarity": 0.3,
@@ -8,5 +8,6 @@
   "unsupported_questions": 4,
   "source_recall_at_k": 1.0,
   "all_sources_recalled_rate": 1.0,
-  "unsupported_abstention_rate": 0.75
+  "supported_answer_coverage_rate": 1.0,
+  "unsupported_abstention_rate": 1.0
 }
