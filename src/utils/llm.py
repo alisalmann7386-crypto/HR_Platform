@@ -11,6 +11,8 @@ def complete(system, user):
     try:
         response = requests.post(base.rstrip('/') + '/chat/completions', headers={'Authorization': 'Bearer ' + os.environ['LLM_API_KEY']}, json={'model':os.environ['LLM_MODEL'],'temperature':0,'messages':[{'role':'system','content':system},{'role':'user','content':user}]},timeout=45)
         response.raise_for_status()
-        return response.json()['choices'][0]['message']['content']
-    except requests.RequestException as e:
+        content=response.json()['choices'][0]['message']['content']
+        if not isinstance(content,str) or not content.strip():raise ValueError('Empty provider response')
+        return content
+    except (requests.RequestException, ValueError, KeyError, IndexError, TypeError):
         raise RuntimeError('LLM request failed. Check provider, model, quota and network; no response was used.') from None

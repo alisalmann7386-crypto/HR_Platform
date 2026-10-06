@@ -2,7 +2,7 @@ import streamlit as st
 from html import escape
 import pandas as pd
 import plotly.express as px
-from src.utils.ui import title,guard,workforce
+from src.utils.ui import title,guard,workforce,module_link
 from src.utils.config import INDEX,DATA
 from src.utils.helpers import read_json
 from src.skills.skill_gap import skill_gaps
@@ -10,38 +10,44 @@ from src.dashboard.analytics import department_summary
 from src.dashboard.insights import workforce_insights
 
 def main():
-    title('Workforce Intelligence Dashboard','Employee records + model signals + skills + performance + attendance + training')
+    title('Your workforce, in perspective','Review department patterns, retention context and capability needs before taking action.')
     df,tables=workforce();departments=st.multiselect('Departments',sorted(df.Department.unique()))
     if departments:df=df[df.Department.isin(departments)]
     skills=tables['employee_skills'];skills=skills[skills.Employee_ID.isin(df.Employee_ID)]
     requirements=tables['role_skill_requirements'];requirements=requirements[requirements.Role.isin(skills.Job_Role.unique())]
     gaps=skill_gaps(skills,requirements)
     records=st.session_state.get('recruitment_records',[])
-    counts=[('Total employees',len(df)),('Departments',df.Department.nunique()),('Elevated signals',int(df.Risk_Band.eq('Elevated').sum())),('Candidates analyzed',len(records)),('Open demo roles',len(list((DATA/'jobs').glob('*.txt')))),('Largest skill gap',int(gaps.Gap.max()) if len(gaps) else 0),('Policies indexed',read_json(INDEX/'metadata.json')['documents'] if (INDEX/'metadata.json').exists() else 0)]
+    counts=[('Historical employee records',len(df)),('Departments',df.Department.nunique()),('Elevated signals',int(df.Risk_Band.eq('Elevated').sum())),('Candidates analyzed',len(records)),('Open demo roles',len(list((DATA/'jobs').glob('*.txt')))),('Largest skill gap',int(gaps.Gap.max()) if len(gaps) else 0),('Policies indexed',read_json(INDEX/'metadata.json')['documents'] if (INDEX/'metadata.json').exists() else 0)]
     for col,(label,value) in zip(st.columns(4),counts[:4]):col.metric(label,value)
     for col,(label,value) in zip(st.columns(3),counts[4:]):col.metric(label,value)
     st.caption('Bundled workforce includes historical records with known Attrition labels; all-record predictions are demonstration inference, not held-out evaluation or a current active employee census.')
-    a,b=st.columns(2)
-    with a:st.plotly_chart(px.histogram(df,x='Attrition_Probability',nbins=25,title='Model estimate distribution'),use_container_width=True)
-    with b:st.plotly_chart(px.histogram(df,x='Department',color='Risk_Band',title='Retention-attention bands by department'),use_container_width=True)
-    a,b=st.columns(2)
-    with a:st.plotly_chart(px.histogram(df,x='OverTime',color='Attrition',barmode='group',title='Recorded overtime vs historical attrition'),use_container_width=True)
-    with b:st.plotly_chart(px.histogram(df,x='JobSatisfaction',color='Attrition',barmode='group',title='Recorded job satisfaction vs historical attrition'),use_container_width=True)
-    a,b=st.columns(2)
-    with a:
-        top=skills.groupby('Skill').Employee_ID.nunique().sort_values(ascending=False).head(12).rename('Employees').reset_index()
-        st.plotly_chart(px.bar(top,x='Employees',y='Skill',orientation='h',title='Common skills — synthetic'),use_container_width=True)
-    with b:st.plotly_chart(px.bar(gaps.sort_values('Gap',ascending=False).head(12),x='Skill',y='Gap',color='Role',title='Largest role-skill gaps — synthetic'),use_container_width=True)
-    a,b=st.columns(2)
-    with a:st.plotly_chart(px.pie(df,names='Department',title='Employees by department'),use_container_width=True)
-    with b:
-        history=df.groupby('Department',as_index=False).agg(Employees=('Employee_ID','nunique'),Historical_Attrition=('Attrition',lambda x: int(x.eq('Yes').sum())))
-        history['Historical_Attrition_Rate']=history.Historical_Attrition/history.Employees
-        st.plotly_chart(px.bar(history,x='Department',y='Historical_Attrition_Rate',title='Historical attrition by department',labels={'Historical_Attrition_Rate':'Recorded attrition fraction'}),use_container_width=True)
-    st.plotly_chart(px.bar(gaps.groupby('Role',as_index=False).Coverage.mean(),x='Role',y='Coverage',title='Mean role skill coverage — synthetic'),use_container_width=True)
-    if records:st.plotly_chart(px.histogram(pd.DataFrame([r['analysis'] for r in records]),x='job_relevance_score',title='Session recruitment relevance scores'),use_container_width=True)
+    overview,retention,capability=st.tabs(['Overview','Retention context','Skills & development'])
+    with retention:
+        a,b=st.columns(2)
+        with a:st.plotly_chart(px.histogram(df,x='Attrition_Probability',nbins=25,title='Model estimate distribution'),use_container_width=True)
+        with b:st.plotly_chart(px.histogram(df,x='Department',color='Risk_Band',title='Retention-attention bands by department'),use_container_width=True)
+    with retention:
+        a,b=st.columns(2)
+        with a:st.plotly_chart(px.histogram(df,x='OverTime',color='Attrition',barmode='group',title='Recorded overtime vs historical attrition'),use_container_width=True)
+        with b:st.plotly_chart(px.histogram(df,x='JobSatisfaction',color='Attrition',barmode='group',title='Recorded job satisfaction vs historical attrition'),use_container_width=True)
+    with capability:
+        a,b=st.columns(2)
+        with a:
+            top=skills.groupby('Skill').Employee_ID.nunique().sort_values(ascending=False).head(12).rename('Employees').reset_index()
+            st.plotly_chart(px.bar(top,x='Employees',y='Skill',orientation='h',title='Common skills — synthetic'),use_container_width=True)
+        with b:st.plotly_chart(px.bar(gaps.sort_values('Gap',ascending=False).head(12),x='Skill',y='Gap',color='Role',title='Largest role-skill gaps — synthetic'),use_container_width=True)
+    with overview:
+        a,b=st.columns(2)
+        with a:st.plotly_chart(px.pie(df,names='Department',hole=.55,title='Employees by department').update_layout(legend=dict(orientation='h',y=-.1,x=0)),use_container_width=True)
+        with b:
+            history=df.groupby('Department',as_index=False).agg(Employees=('Employee_ID','nunique'),Historical_Attrition=('Attrition',lambda x: int(x.eq('Yes').sum())))
+            history['Historical_Attrition_Rate']=history.Historical_Attrition/history.Employees
+            st.plotly_chart(px.bar(history,x='Department',y='Historical_Attrition_Rate',title='Historical attrition by department',labels={'Historical_Attrition_Rate':'Recorded attrition fraction'}),use_container_width=True)
+        st.plotly_chart(px.bar(gaps.groupby('Role',as_index=False).Coverage.mean(),x='Role',y='Coverage',title='Mean role skill coverage — synthetic'),use_container_width=True)
+        if records:st.plotly_chart(px.histogram(pd.DataFrame([r['analysis'] for r in records]),x='job_relevance_score',title='Session recruitment relevance scores'),use_container_width=True)
     st.subheader('Multi-source department view');summary=department_summary(df);st.dataframe(summary,hide_index=True)
-    st.subheader('AI Workforce Insights')
+    st.subheader('Discussion prompts')
+    st.caption('Rule-based observations from the selected records; investigate context before acting.')
     for insight in workforce_insights(summary,gaps,skills):
         st.markdown(f'<div class="wf-insight"><h3>Workforce insight</h3><p>{escape(insight)}</p></div>',unsafe_allow_html=True)
     st.caption('These observations describe model patterns and synthetic skill capacity; investigate context before any HR action.')
@@ -50,7 +56,6 @@ def main():
         st.dataframe(signals.rename('Occurrences in top three contributions').reset_index(),hide_index=True)
         st.caption('Largest absolute contributions, not necessarily increasing contributions; associations in this model, not causes.')
     with st.expander('Joined employee records (auxiliary fields are synthetic)'):st.dataframe(df[['Employee_ID','Department','JobRole','Attrition_Probability','Risk_Band','Top_Model_Signals','Performance_Score','Attendance_Rate','Training_Hours','Courses_Completed']],hide_index=True)
-    if st.button('Review workload and development policies'):
-        st.session_state['policy_query']='What do the performance review and work from home policies say about workload and development support?';st.switch_page('pages/3_HR_Policy_Assistant.py')
+    module_link('pages/3_HR_Policy_Assistant.py','Review related policies →')
     st.caption('No causal relationship is inferred between synthetic auxiliary fields and attrition. Skill targets describe future demo capacity, not real vacancies.')
 guard(main)

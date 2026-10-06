@@ -27,8 +27,10 @@ def analyze(candidate,jd,weights=None,backend='semantic'):
     if jd['minimum_experience'] is not None:
         if candidate['experience_years'] is None: unknown.append('Experience requires manual verification');components['experience']=0.
         else:components['experience']=min(candidate['experience_years']/max(jd['minimum_experience'],.1),1.)
-    if candidate['projects'] and jd['responsibilities']:
-        if backend=='semantic':
+    if jd['responsibilities']:
+        components['projects']=0.
+        if not candidate['projects']:unknown.append('Project evidence missing; requires manual verification')
+        elif backend=='semantic':
             sims=encode(candidate['projects']) @ encode(jd['responsibilities']).T
             components['projects']=float(np.clip(sims.max(axis=0),0,1).mean())
             details['projects']=[{'requirement':r,'evidence':candidate['projects'][int(sims[:,i].argmax())],'cosine':float(sims[:,i].max())} for i,r in enumerate(jd['responsibilities'])]

@@ -1,24 +1,41 @@
 import streamlit as st
-import pandas as pd
+import logging
+from pathlib import Path
+from src.utils.config import ROOT
 from src.utils.config import MODELS, DATA, REPORTS
 from src.utils.helpers import read_json
 
 
 def title(name, description):
     st.markdown(
-        '<span class="wf-badge">WORKFORCEAI · HUMAN REVIEW</span>',
+        '<span class="wf-badge">PEOPLE OPERATIONS · EVIDENCE WORKSPACE</span>',
         unsafe_allow_html=True,
     )
     st.title(name)
     st.caption(description)
-    st.caption("Synthetic demo data · inspect evidence before taking any HR action")
+    st.caption("Human review required · demonstration datasets are labeled within each module")
+
+
+def module_link(path, label):
+    from src.utils.access import allowed_page
+    if allowed_page(st.session_state.get('access_role','admin'),path):st.page_link(path,label=label)
 
 
 def guard(function):
+    from src.utils.access import require_access, allowed_page
+    role=require_access(render_controls=False)
+    page=Path(function.__code__.co_filename).resolve().relative_to(ROOT).as_posix()
+    if not allowed_page(role,page):
+        st.error('Your access role does not permit this module.')
+        st.stop()
     try:
         function()
     except Exception as exc:
-        st.error(f"{type(exc).__name__}: {exc}")
+        if isinstance(exc,(ValueError,FileNotFoundError,RuntimeError)):
+            st.error(str(exc))
+        else:
+            logging.getLogger(__name__).error('module_failure type=%s',type(exc).__name__)
+            st.error('This module encountered an unexpected error. No result was produced.')
         st.info(
             "This module could not complete. Check the input and setup guidance above; "
             "other pages remain available."

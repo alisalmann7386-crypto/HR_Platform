@@ -8,3 +8,6 @@ data/resumes/uploads/
 reports/interviews/
 venv/
 vector_store/
+
+vector_store_lexical/
+vector_store*.lock

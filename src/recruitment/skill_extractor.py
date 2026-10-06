@@ -22,12 +22,16 @@ def extract_skills(text):
         for alias in aliases:
             # CV is ambiguous (curriculum vitae); accept the full phrase only in resumes.
             if alias == 'cv': continue
-            match=re.search(r'(?<![\w])'+re.escape(alias)+r'(?![\w])',text,re.I)
-            if match:
-                start=text.rfind('\n',0,match.start())+1;end=text.find('\n',match.end());end=len(text) if end<0 else end
+            for match in re.finditer(r'(?<![\w])'+re.escape(alias)+r'(?![\w])',text,re.I):
+                start=text.rfind('\n',0,match.start())+1
+                end=text.find('\n',match.end())
+                end=len(text) if end<0 else end
                 evidence=text[start:end].strip()
-                if re.search(r'\b(no|not|without)\s+(?:\w+\s+){0,2}'+re.escape(alias),evidence,re.I): continue
-                result.append({'skill':skill,'evidence':evidence,'alias':match.group()});break
+                prefix=re.split(r'[.;!?]',text[start:match.start()])[-1]
+                if re.search(r'\b(no|not|without)\s+(?:\w+\s+){0,2}$',prefix,re.I):continue
+                result.append({'skill':skill,'evidence':evidence,'alias':match.group()})
+                break
+            if result and result[-1]['skill']==skill:break
     return result
 
 def canonical(skill):
