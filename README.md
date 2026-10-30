@@ -3,6 +3,7 @@
 **Understand people. Detect risks. Discover skills. Support better HR decisions.**
 
 Repository: https://github.com/alisalmann7386-crypto/HR_Platform
+Demo: https://hrplatformsa.streamlit.app/Recruitment_Intelligence
 
 A runnable B.Tech Computer Science / Data Science project with Streamlit, attrition ML, sentence-transformer matching, optional LLM assistance, policy RAG, SHAP and NetworkX workforce analytics.
 
